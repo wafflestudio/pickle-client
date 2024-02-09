@@ -1578,6 +1578,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"emotion-normalize@npm:^11.0.1":
+  version: 11.0.1
+  resolution: "emotion-normalize@npm:11.0.1"
+  peerDependencies:
+    "@emotion/react": ^11.0.0
+    react: ">=16.3.0"
+  checksum: 10/f33c6ac75eca2d52d84cad99e359c0e73f78f814377121743c6002edb903864d8ad0adaf2a760dfac5a9c18dc5591ef01a7985f5c223973b10e7d20fa706f226
+  languageName: node
+  linkType: hard
+
 "encoding@npm:^0.1.13":
   version: 0.1.13
   resolution: "encoding@npm:0.1.13"
@@ -2980,6 +2990,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": "npm:^6.21.0"
     "@typescript-eslint/parser": "npm:^6.21.0"
     "@vitejs/plugin-react": "npm:^4.2.1"
+    emotion-normalize: "npm:^11.0.1"
     eslint: "npm:^8.56.0"
     eslint-plugin-react-hooks: "npm:^4.6.0"
     eslint-plugin-react-refresh: "npm:^0.4.5"
