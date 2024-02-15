@@ -24,5 +24,5 @@ export default function RootLayout() {
 const Main = styled.main`
   position: relative;
   width: 100vw;
-  min-height: 100vh;
+  overflow: hidden;
 `;
