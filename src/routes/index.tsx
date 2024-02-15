@@ -5,9 +5,9 @@
  */
 
 import { createBrowserRouter } from "react-router-dom";
-import RootLayout from "../pages/layout";
+import RootLayout from "../layouts/root/layout";
 import HomeLayout from "../layouts/home";
-import Wip from "../pages/Wip";
+import Wip from "../pages/common/Wip";
 
 const router = createBrowserRouter([
   {
