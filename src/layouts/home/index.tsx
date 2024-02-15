@@ -25,7 +25,7 @@ const TABS = [
 
 const useTab = () => {
   const { pathname } = useLocation();
-  const [path] = pathname.split("/").slice(-1);
+  const path = pathname.split("/")[1];
   const id = TABS.findIndex((tab) => tab.path === path);
   const outlet = useOutlet();
 
