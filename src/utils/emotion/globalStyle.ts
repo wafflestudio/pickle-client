@@ -21,6 +21,9 @@ const globalStyle = css`
     min-height: 100%;
     font-family: Helvetica, Arial, sans-serif;
   }
+  body {
+    overflow: hidden;
+  }
   * {
     box-sizing: border-box;
   }

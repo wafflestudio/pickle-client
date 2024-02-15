@@ -5,14 +5,29 @@
  */
 
 import { createBrowserRouter } from "react-router-dom";
-import RootLayout from "../pages/layout";
-import Home from "../pages/home";
+import RootLayout from "../layouts/root/layout";
+import HomeLayout from "../layouts/home";
+import Wip from "../pages/common/Wip";
 
 const router = createBrowserRouter([
   {
     path: "",
     element: <RootLayout />,
-    children: [{ path: "", element: <Home /> }],
+    children: [
+      {
+        path: "",
+        element: <HomeLayout />,
+        children: [
+          { path: "", element: <Wip name="홈(챌린지)" color="white" /> },
+          { path: "feed", element: <Wip name="피드" color="#87a284" /> },
+          {
+            path: "upload",
+            element: <Wip name="업로드" color="#4b52b1" />,
+          },
+          { path: "me", element: <Wip name="마이페이지" color="#c63f30" /> },
+        ],
+      },
+    ],
   },
 ]);
 
