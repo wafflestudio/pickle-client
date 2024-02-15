@@ -1,3 +1,9 @@
+/**
+ * @fileoverview Working-In-Progress 페이지
+ *
+ * 아직 작업 중인 페이지를 표시합니다. 색상과 텍스트를 변경할 수 있습니다.
+ */
+
 import styled from "@emotion/styled";
 
 type WipProps = {

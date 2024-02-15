@@ -1,3 +1,9 @@
+/**
+ * @fileoverview 홈 레이아웃의 탭을 전환하는 네비게이터.
+ *
+ * 대충 기능만 만들었습니다.
+ */
+
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
 
