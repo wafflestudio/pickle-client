@@ -9,12 +9,25 @@ import RootLayout from "../layouts/root/layout";
 import HomeLayout from "../layouts/home";
 import Wip from "../pages/common/Wip";
 import Home from "../pages/home";
+import GuestLayout from "../layouts/guest";
 
 const router = createBrowserRouter([
   {
     path: "",
     element: <RootLayout />,
     children: [
+      {
+        path: "",
+        element: <GuestLayout />,
+        children: [
+          { path: "splash", element: <Wip name="스플래시" color="white" /> },
+          { path: "login", element: <Wip name="로그인" color="white" /> },
+          {
+            path: "register",
+            element: <Wip name="회원가입" color="white" />,
+          },
+        ],
+      },
       {
         path: "",
         element: <HomeLayout />,
