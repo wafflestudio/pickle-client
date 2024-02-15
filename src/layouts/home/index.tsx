@@ -5,11 +5,10 @@
  * 탭 전환 애니메이션을 구현해 두었는데, 이후 커스텀 훅으로 뺄 수 있을 것 같습니다.
  */
 
-import styled from "@emotion/styled";
 import { useMemo, useRef, useState } from "react";
 import { useLocation, useOutlet } from "react-router-dom";
 import HomeNavigator from "../../components/home/HomeNavigator";
-import { css, keyframes } from "@emotion/react";
+import SlideContainer from "../../components/common/SlideContainer";
 
 // 전환 시간
 const ANIMATION_DURATION = 1000;
@@ -83,59 +82,18 @@ export default function HomeLayout() {
 
   return (
     <>
-      <Container
-        $slide={
-          cache.id < current.id
-            ? "RIGHT"
-            : cache.id > current.id
-              ? "LEFT"
+      <SlideContainer
+        slideDirection={
+          current.id < cache.id
+            ? "LEFT"
+            : current.id > cache.id
+              ? "RIGHT"
               : "NONE"
         }
       >
         {render}
-      </Container>
+      </SlideContainer>
       <HomeNavigator />
     </>
   );
 }
-
-const Container = styled.div<{
-  $slide: "LEFT" | "RIGHT" | "NONE";
-}>`
-  position: relative;
-  display: flex;
-
-  ${(props) => {
-    if (props.$slide === "LEFT")
-      return css`
-        flex-direction: row-reverse;
-        animation: ${toLeft} ${ANIMATION_DURATION / 1000}s ease;
-      `;
-    if (props.$slide === "RIGHT")
-      return css`
-        flex-direction: row;
-        animation: ${toRight} ${ANIMATION_DURATION / 1000}s ease;
-      `;
-    return css`
-      transform: translateX(0);
-    `;
-  }}
-`;
-
-// 전환 애니메이션 (커스터마이징 가능)
-const toLeft = keyframes`
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(100%);
-  }
-`;
-const toRight = keyframes`
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-100%);
-  }
-`;
