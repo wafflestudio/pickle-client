@@ -5,6 +5,7 @@
  */
 
 import styled from "@emotion/styled";
+import { Page } from "../../components/common/Page";
 
 type WipProps = {
   name: string;
@@ -19,11 +20,8 @@ export default function Wip({ name, color }: WipProps) {
   );
 }
 
-const Main = styled.main`
-  width: 100%;
+const Main = styled(Page)`
   height: 400px;
-  flex-grow: 0;
-  flex-shrink: 0;
   display: flex;
   justify-content: center;
   align-items: center;
