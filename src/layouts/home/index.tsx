@@ -11,6 +11,9 @@ import { useLocation, useOutlet } from "react-router-dom";
 import HomeNavigator from "../../components/home/HomeNavigator";
 import { css, keyframes } from "@emotion/react";
 
+// 전환 시간
+const ANIMATION_DURATION = 1000;
+
 // 탭 목록
 const TABS = [
   {
@@ -74,7 +77,7 @@ export default function HomeLayout() {
     timeout.current = setTimeout(() => {
       timeout.current = null;
       setCache(current);
-    }, 1000);
+    }, ANIMATION_DURATION);
     return [cache.component, current.component]; // 순서가 동일한 이유는 방향에 따라 flex-direction이 바뀌기 때문입니다.
   }, [cache, current]);
 
@@ -106,12 +109,12 @@ const Container = styled.div<{
     if (props.$slide === "LEFT")
       return css`
         flex-direction: row-reverse;
-        animation: ${toLeft} 1s ease;
+        animation: ${toLeft} ${ANIMATION_DURATION / 1000}s ease;
       `;
     if (props.$slide === "RIGHT")
       return css`
         flex-direction: row;
-        animation: ${toRight} 1s ease;
+        animation: ${toRight} ${ANIMATION_DURATION / 1000}s ease;
       `;
     return css`
       transform: translateX(0);
