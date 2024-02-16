@@ -50,7 +50,7 @@ const useTab = () => {
 export default function HomeLayout() {
   const current = useTab(); // 현재 탭 정보
   const [cache, setCache] = useState(current); // 이전 탭 정보. 애니메이션이 끝날 때 최신화됩니다.
-  const timeout = useRef<number | null>(null);
+  const timeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // 디버깅용 콘솔
   // console.log(current);
