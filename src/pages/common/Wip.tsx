@@ -15,7 +15,7 @@ type WipProps = {
 export default function Wip({ name, color }: WipProps) {
   return (
     <Main style={{ backgroundColor: color ?? "white" }}>
-      {name} on progress
+      {name} on progress (modified)
     </Main>
   );
 }
