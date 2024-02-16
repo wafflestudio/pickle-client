@@ -10,8 +10,8 @@ const ANIMATION_DURATION = 750;
 
 const TABS = [
   { id: 0, path: "splash" },
-  { id: 1, path: "login" },
-  { id: 2, path: "register" },
+  { id: 1, path: "register" },
+  { id: 2, path: "login" },
 ];
 
 const useTab = () => {
@@ -56,7 +56,7 @@ export default function GuestLayout() {
   return (
     <SlideContainer
       animationDuration={ANIMATION_DURATION}
-      slideDirection={current.id !== cache.id ? "RIGHT" : "NONE"}
+      slideDirection={current.id > cache.id ? "RIGHT" : "NONE"}
     >
       {render}
     </SlideContainer>
