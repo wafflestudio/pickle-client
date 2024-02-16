@@ -39,8 +39,7 @@
     "lint-staged": "^15.2.2",
     "prettier": "^3.2.5",
     "typescript": "^5.2.2",
-    "vite": "^5.1.0",
-    "vite-plugin-pwa": "^0.18.2"
+    "vite": "^5.1.0"
   },
   "packageManager": "yarn@4.1.0"
 }
