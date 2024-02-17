@@ -4,7 +4,6 @@ import styled from "@emotion/styled";
 import FlagIcon from "../icons/Flag";
 import LikeIcon from "../icons/Like";
 import CardClipper from "./CardClipper";
-import LikeFillIcon from "../icons/LikeFill";
 
 interface Props {
   username: string;
@@ -13,12 +12,7 @@ interface Props {
   isLiked?: boolean;
 }
 
-export default function Card({
-  username,
-  imageUrl,
-  likeCount,
-  isLiked,
-}: Props) {
+export default function Card({ username, imageUrl, likeCount }: Props) {
   const [size, setSize] = useState(0);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -51,11 +45,8 @@ export default function Card({
             <Text>{14}</Text>
           </Interaction>
           <Interaction>
-            <IconContainer $visible={!isLiked}>
+            <IconContainer $visible>
               <LikeIcon width={12} height={12} />
-            </IconContainer>
-            <IconContainer $visible={isLiked}>
-              <LikeFillIcon width={16} height={16} />
             </IconContainer>
             <Text>{likeCount}</Text>
           </Interaction>

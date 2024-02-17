@@ -1,9 +1,12 @@
-import styled from "@emotion/styled";
 import { useMemo } from "react";
+
+import styled from "@emotion/styled";
 import LikeIcon from "../icons/Like";
 import FlagIcon from "../icons/Flag";
+import { Link } from "react-router-dom";
 
 interface Props {
+  id: number;
   date: string;
   isOdd?: boolean;
   username: string;
@@ -11,36 +14,26 @@ interface Props {
   likeCount: number;
   isLiked?: boolean;
   description?: string;
-  challengeCount: number;
+  challengeCount?: number;
 }
 
 type alignType = "left" | "right";
 
 export default function Post({
+  id,
   date,
   isOdd,
-  isLiked,
   username,
   imageUrl,
   likeCount,
   description,
   challengeCount,
 }: Props) {
-  console.log(
-    date,
-    isOdd,
-    isLiked,
-    username,
-    imageUrl,
-    likeCount,
-    description,
-    challengeCount,
-  );
-
   const align = useMemo(() => (isOdd ? "left" : "right"), [isOdd]);
 
   return (
-    <Container $align={align}>
+    // TODO: link
+    <Container $align={align} to={`/${id}`}>
       <PhotoSection $align={align}>
         <Information $align={align}>
           <DateText $align={align}>{date}</DateText>
@@ -48,15 +41,15 @@ export default function Post({
         </Information>
         <Photo src={imageUrl} />
 
-        <Icons>
+        <Icons $align={align}>
           <IconContainer>
             {/* TODO: later 아이콘 추출 따로 */}
-            <LikeIcon width={20} height={24} color={"#fff"} />
+            <LikeIcon width={20} height={20} color={"#fff"} />
             <Text>{likeCount}</Text>
           </IconContainer>
           <IconContainer>
-            <FlagIcon width={24} height={24} color={"#fff"} />
-            <Text>{likeCount}</Text>
+            <FlagIcon width={20} height={20} color={"#fff"} />
+            <Text>{challengeCount}</Text>
           </IconContainer>
         </Icons>
       </PhotoSection>
@@ -66,7 +59,7 @@ export default function Post({
   );
 }
 
-const Container = styled.div<{ $align?: alignType }>`
+const Container = styled(Link)<{ $align?: alignType }>`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -78,14 +71,19 @@ const Container = styled.div<{ $align?: alignType }>`
     $align === "left" ? "flex-start" : "flex-end"};
   background: #fff;
   box-shadow: 0px 0px 12px 0px rgba(29, 29, 29, 0.1);
+  text-decoration: none;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+  }
 `;
 
 const PhotoSection = styled.section<{ $align?: alignType }>`
   display: flex;
   flex-direction: ${({ $align }) =>
     $align === "left" ? "row-reverse" : "row"};
-  justify-content: ${({ $align }) =>
-    $align === "left" ? "flex-start" : "flex-end"};
+  justify-content: flex-end;
   width: 382px;
   height: 267px;
   position: relative;
@@ -94,8 +92,8 @@ const PhotoSection = styled.section<{ $align?: alignType }>`
 const Photo = styled.img`
   width: 88%;
   max-width: 356px;
-  height: 100%;
-  flex-shrink: 0;
+  height: 267px;
+  flex-shrink: 1;
   background: black;
   object-fit: cover;
 `;
@@ -144,13 +142,13 @@ const Desc = styled.h6<{ $align?: alignType }>`
   word-break: keep-all;
 `;
 
-const Icons = styled.div`
+const Icons = styled.div<{ $align?: alignType }>`
   display: flex;
   gap: 12px;
   align-items: center;
   justify-content: center;
   position: absolute;
-  right: 16px;
+  ${({ $align }) => ($align === "right" ? "right: 16px" : "left: 16px")};
   bottom: 12px;
 `;
 

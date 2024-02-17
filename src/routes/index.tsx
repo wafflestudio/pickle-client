@@ -17,6 +17,7 @@ import AuthLayout from "../layouts/auth/index";
 import Feed from "../pages/feed";
 import RegisterLayout from "../layouts/register";
 import RegisterProfile from "../pages/register/Profile";
+import Me from "../pages/me";
 import Create from "../pages/create";
 import { Challenge } from "../pages/challenge";
 import ChallengeLayout from "../layouts/challenge/index";
@@ -42,7 +43,7 @@ const router = createBrowserRouter([
               },
               {
                 path: "me",
-                element: <Wip name="마이페이지" color="#c63f30" />,
+                element: <Me />,
               },
             ],
           },
