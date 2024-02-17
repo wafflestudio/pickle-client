@@ -10,8 +10,8 @@ const ANIMATION_DURATION = 750;
 
 const TABS = [
   { id: 0, path: "splash" },
-  { id: 1, path: "register" },
-  { id: 2, path: "login" },
+  { id: 1, path: "login" },
+  { id: 2, path: "register" },
 ];
 
 const useTab = () => {
