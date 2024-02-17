@@ -30,6 +30,8 @@ export default function Feed() {
     limit: 3,
   });
 
+  // TODO: 무한 스크롤 디버깅해야함
+  // 로딩처리
   useEffect(() => {
     const fetchLocation = () => {
       if (navigator.geolocation) {
@@ -107,22 +109,24 @@ export default function Feed() {
                 {posts.map(
                   (
                     {
+                      id,
                       updated_at: date,
-                      is_liked: isLiked,
-                      author_name: username,
                       image: imageUrl,
-                      like_count: likeCount,
                       text: description,
+                      author_name: username,
+                      like_count: likeCount,
+                      challenge_count: challengeCount,
                     }: PostSchema["getPostList"]["response"]["results"][0],
                     index: number,
                   ) => {
                     const post = {
+                      id,
                       date,
-                      isLiked,
                       username,
                       imageUrl,
                       likeCount,
                       description,
+                      challengeCount,
                     };
                     return (
                       <Post {...post} key={imageUrl} isOdd={index % 2 !== 0} />

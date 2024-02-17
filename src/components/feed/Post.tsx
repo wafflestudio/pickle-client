@@ -3,8 +3,10 @@ import { useMemo } from "react";
 import styled from "@emotion/styled";
 import LikeIcon from "../icons/Like";
 import FlagIcon from "../icons/Flag";
+import { Link } from "react-router-dom";
 
 interface Props {
+  id: number;
   date: string;
   isOdd?: boolean;
   username: string;
@@ -18,29 +20,20 @@ interface Props {
 type alignType = "left" | "right";
 
 export default function Post({
+  id,
   date,
   isOdd,
-  // isLiked,
   username,
   imageUrl,
   likeCount,
   description,
-  // challengeCount,
+  challengeCount,
 }: Props) {
-  // console.log(
-  //   date,
-  //   isOdd,
-  //   isLiked,
-  //   username,
-  //   imageUrl,
-  //   likeCount,
-  //   description,
-  //   challengeCount,
-  // );
   const align = useMemo(() => (isOdd ? "left" : "right"), [isOdd]);
 
   return (
-    <Container $align={align}>
+    // TODO: link
+    <Container $align={align} to={`/${id}`}>
       <PhotoSection $align={align}>
         <Information $align={align}>
           <DateText $align={align}>{date}</DateText>
@@ -51,12 +44,12 @@ export default function Post({
         <Icons $align={align}>
           <IconContainer>
             {/* TODO: later 아이콘 추출 따로 */}
-            <LikeIcon width={20} height={24} color={"#fff"} />
+            <LikeIcon width={20} height={20} color={"#fff"} />
             <Text>{likeCount}</Text>
           </IconContainer>
           <IconContainer>
-            <FlagIcon width={24} height={24} color={"#fff"} />
-            <Text>{likeCount}</Text>
+            <FlagIcon width={20} height={20} color={"#fff"} />
+            <Text>{challengeCount}</Text>
           </IconContainer>
         </Icons>
       </PhotoSection>
@@ -66,7 +59,7 @@ export default function Post({
   );
 }
 
-const Container = styled.div<{ $align?: alignType }>`
+const Container = styled(Link)<{ $align?: alignType }>`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -78,6 +71,12 @@ const Container = styled.div<{ $align?: alignType }>`
     $align === "left" ? "flex-start" : "flex-end"};
   background: #fff;
   box-shadow: 0px 0px 12px 0px rgba(29, 29, 29, 0.1);
+  text-decoration: none;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+  }
 `;
 
 const PhotoSection = styled.section<{ $align?: alignType }>`
