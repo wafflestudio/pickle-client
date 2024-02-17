@@ -46,3 +46,11 @@ export const useGetMyLikedPostListQuery = (
   });
   return query;
 };
+
+export const useGetPostQuery = (feedId: number) => {
+  const query = useQuery({
+    queryKey: ["post", feedId],
+    queryFn: () => postRepo().getPost(feedId),
+  });
+  return query;
+};
