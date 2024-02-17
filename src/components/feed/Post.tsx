@@ -1,5 +1,6 @@
-import styled from "@emotion/styled";
 import { useMemo } from "react";
+
+import styled from "@emotion/styled";
 import LikeIcon from "../icons/Like";
 import FlagIcon from "../icons/Flag";
 
@@ -11,7 +12,7 @@ interface Props {
   likeCount: number;
   isLiked?: boolean;
   description?: string;
-  challengeCount: number;
+  challengeCount?: number;
 }
 
 type alignType = "left" | "right";
@@ -19,24 +20,23 @@ type alignType = "left" | "right";
 export default function Post({
   date,
   isOdd,
-  isLiked,
+  // isLiked,
   username,
   imageUrl,
   likeCount,
   description,
-  challengeCount,
+  // challengeCount,
 }: Props) {
-  console.log(
-    date,
-    isOdd,
-    isLiked,
-    username,
-    imageUrl,
-    likeCount,
-    description,
-    challengeCount,
-  );
-
+  // console.log(
+  //   date,
+  //   isOdd,
+  //   isLiked,
+  //   username,
+  //   imageUrl,
+  //   likeCount,
+  //   description,
+  //   challengeCount,
+  // );
   const align = useMemo(() => (isOdd ? "left" : "right"), [isOdd]);
 
   return (
@@ -48,7 +48,7 @@ export default function Post({
         </Information>
         <Photo src={imageUrl} />
 
-        <Icons>
+        <Icons $align={align}>
           <IconContainer>
             {/* TODO: later 아이콘 추출 따로 */}
             <LikeIcon width={20} height={24} color={"#fff"} />
@@ -84,9 +84,8 @@ const PhotoSection = styled.section<{ $align?: alignType }>`
   display: flex;
   flex-direction: ${({ $align }) =>
     $align === "left" ? "row-reverse" : "row"};
-  justify-content: ${({ $align }) =>
-    $align === "left" ? "flex-start" : "flex-end"};
-  width: 382px;
+  justify-content: flex-end;
+  width: auto;
   height: 267px;
   position: relative;
 `;
@@ -94,7 +93,7 @@ const PhotoSection = styled.section<{ $align?: alignType }>`
 const Photo = styled.img`
   width: 88%;
   max-width: 356px;
-  height: 100%;
+  height: 267px;
   flex-shrink: 0;
   background: black;
   object-fit: cover;
@@ -144,13 +143,13 @@ const Desc = styled.h6<{ $align?: alignType }>`
   word-break: keep-all;
 `;
 
-const Icons = styled.div`
+const Icons = styled.div<{ $align?: alignType }>`
   display: flex;
   gap: 12px;
   align-items: center;
   justify-content: center;
   position: absolute;
-  right: 16px;
+  ${({ $align }) => ($align === "right" ? "right: 16px" : "left: 16px")};
   bottom: 12px;
 `;
 
