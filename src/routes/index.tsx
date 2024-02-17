@@ -14,6 +14,7 @@ import Login from "../pages/login";
 import Hello from "../pages/hello";
 import Register from "../pages/register/index";
 import AuthLayout from "../layouts/auth/index";
+import Feed from "../pages/feed";
 
 const router = createBrowserRouter([
   {
@@ -29,7 +30,7 @@ const router = createBrowserRouter([
             element: <HomeLayout />,
             children: [
               { path: "", element: <Home /> },
-              { path: "feed", element: <Wip name="피드" color="#87a284" /> },
+              { path: "feed", element: <Feed /> },
               {
                 path: "upload",
                 element: <Wip name="업로드" color="#4b52b1" />,

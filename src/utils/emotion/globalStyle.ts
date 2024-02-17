@@ -34,13 +34,10 @@ const globalStyle = css`
     line-height: normal;
   }
   :root {
-    --nav-height: 56px;
+    --nav-height: 52px;
     --header-height: 104px;
     --nav-bottom-margin: 35px;
     --max-width: 400px;
-    /* --primary-color: #; */
-    /* --secondary-color: #; */
-    /* --background-color: #; */
   }
 `;
 

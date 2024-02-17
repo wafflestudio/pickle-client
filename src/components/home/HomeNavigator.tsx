@@ -21,32 +21,46 @@ export default function HomeNavigator() {
   // TODO: 탭 트랜지션 효과
 
   return (
-    <Nav>
-      <Tab to="/">{currentPath === "/" ? <HomeFillIcon /> : <HomeIcon />}</Tab>
-      <Tab to="/feed">
-        {currentPath === "/feed" ? <NavigateFillIcon /> : <NavigateIcon />}
-      </Tab>
-      <Tab to="/upload">
-        {currentPath === "/upload" ? (
-          <PlusSquaredFillIcon />
-        ) : (
-          <PlusSquaredIcon />
-        )}
-      </Tab>
-      <Tab to="/me">{currentPath === "/me" ? <MeFillIcon /> : <MeIcon />}</Tab>
-    </Nav>
+    <Container>
+      <Nav>
+        <Tab to="/">
+          {currentPath === "/" ? <HomeFillIcon /> : <HomeIcon />}
+        </Tab>
+        <Tab to="/feed">
+          {currentPath === "/feed" ? <NavigateFillIcon /> : <NavigateIcon />}
+        </Tab>
+        <Tab to="/upload">
+          {currentPath === "/upload" ? (
+            <PlusSquaredFillIcon />
+          ) : (
+            <PlusSquaredIcon />
+          )}
+        </Tab>
+        <Tab to="/me">
+          {currentPath === "/me" ? <MeFillIcon /> : <MeIcon />}
+        </Tab>
+      </Nav>
+      <Margin />
+    </Container>
   );
 }
 
-const Nav = styled.nav`
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
   width: 100%;
   max-width: var(--max-width);
-  height: var(--nav-height);
+  height: max-content;
   background-color: #fff;
   position: fixed;
-  bottom: var(--nav-bottom-margin);
-  display: flex;
+  bottom: 0;
   margin: auto;
+`;
+
+const Nav = styled.nav`
+  display: flex;
+  width: 100%;
+  height: var(--nav-height);
 `;
 
 const Tab = styled(Link)`
@@ -55,4 +69,9 @@ const Tab = styled(Link)`
   justify-content: center;
   align-items: center;
   color: #000;
+`;
+
+const Margin = styled.div`
+  width: 100%;
+  height: var(--nav-bottom-margin);
 `;

@@ -27,6 +27,7 @@ const Container = styled.header`
   width: 100%;
   height: 104px;
   padding: 64px 16px 12px 18px;
+  background-color: transparent;
 `;
 
 const Button = styled.button`
