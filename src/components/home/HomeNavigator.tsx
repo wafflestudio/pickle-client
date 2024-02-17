@@ -20,7 +20,7 @@ export default function HomeNavigator() {
 
 const Nav = styled.nav`
   width: 100vw;
-  height: 56px;
+  height: var(--nav-height);
   background-color: #fff;
   position: fixed;
   left: 0;

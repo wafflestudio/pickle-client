@@ -8,6 +8,7 @@ import { createBrowserRouter } from "react-router-dom";
 import RootLayout from "../layouts/root/layout";
 import HomeLayout from "../layouts/home";
 import Wip from "../pages/common/Wip";
+import Home from "../pages/home";
 
 const router = createBrowserRouter([
   {
@@ -18,7 +19,7 @@ const router = createBrowserRouter([
         path: "",
         element: <HomeLayout />,
         children: [
-          { path: "", element: <Wip name="홈(챌린지)" color="white" /> },
+          { path: "", element: <Home /> },
           { path: "feed", element: <Wip name="피드" color="#87a284" /> },
           {
             path: "upload",

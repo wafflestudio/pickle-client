@@ -4,6 +4,7 @@
  * 기본 CSS 설정을 아예 초기화시키는 과격한 Reset보다는, 브라우저 간 일관성만을 유지시키는 Noramlize를 적용했습니다.
  * 자주 사용되는 것 같은 emotion-normalize를 이용했는데, 다른 방식을 선호하신다면 바꿔도 상관 없습니다.
  * 또한 모든 컴포넌트에 스타일링 편의를 위해 `box-sizing: border-box`을 일괄 적용했습니다.
+ * 컴포넌트의 공통 변수는 :root의 css variable을 이용하여 관리합니다.
  *
  * @package emotion-normalize
  */
@@ -26,6 +27,12 @@ const globalStyle = css`
   }
   * {
     box-sizing: border-box;
+  }
+  :root {
+    --nav-height: 56px;
+    /* --primary-color: #; */
+    /* --secondary-color: #; */
+    /* --background-color: #; */
   }
 `;
 
