@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from "react";
 import styled from "@emotion/styled";
 import Post from "../../components/feed/Post";
 import { Page } from "../../components/common/Page";
-import { PostSchema } from "../../services/apis/post";
+import { PostApiSchema } from "../../services/apis/post";
 import { hideScroll } from "../../utils/emotion/scroll";
 import { useGetPostListQuery } from "../../services/repositories/post";
 
@@ -20,7 +20,7 @@ export default function Feed() {
   const [isFetching, setIsFetching] = useState(false);
   const [loadingLocation, setLoadingLocation] = useState(true);
   const [posts, setPosts] = useState<
-    PostSchema["getPostList"]["response"]["results"]
+    PostApiSchema["getPostList"]["response"]["results"]
   >([]);
 
   const { data: feedList, isLoading } = useGetPostListQuery({
@@ -116,7 +116,7 @@ export default function Feed() {
                       author_name: username,
                       like_count: likeCount,
                       challenge_count: challengeCount,
-                    }: PostSchema["getPostList"]["response"]["results"][0],
+                    }: PostApiSchema["getPostList"]["response"]["results"][0],
                     index: number,
                   ) => {
                     const post = {

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "@emotion/styled";
 import { Page } from "../../components/common/Page";
-import { PostSchema } from "../../services/apis/post";
+import { PostApiSchema } from "../../services/apis/post";
 import { hideScroll } from "../../utils/emotion/scroll";
 import ProfileIcon from "../../components/icons/Profile";
 import { useUserQuery } from "../../services/repositories/user";
@@ -17,7 +17,7 @@ export default function Me() {
   const [cursor] = useState("");
   const [selectedTab, setSelectedTab] = useState<"myFeed" | "liked">("myFeed");
   const [posts, setPosts] = useState<
-    PostSchema["getMyPostList"]["response"]["results"]
+    PostApiSchema["getMyPostList"]["response"]["results"]
   >([]);
 
   const { me } = useUserQuery();

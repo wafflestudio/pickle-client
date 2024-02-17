@@ -6,14 +6,14 @@
  */
 
 import { useQuery } from "@tanstack/react-query";
-import { PostSchema, postRepo } from "../apis/post";
+import { PostApiSchema, postRepo } from "../apis/post";
 
 export const useGetPostListQuery = (
-  body: PostSchema["getPostList"]["request"],
+  body: PostApiSchema["getPostList"]["request"],
 ) => {
   const query = useQuery({
     queryKey: ["postList"],
-    queryFn: () => postRepo().getPostList({ ...body }),
+    queryFn: () => postRepo().getPostList(body),
     retry: 1,
     retryDelay: 1000,
     staleTime: Infinity,
@@ -22,11 +22,11 @@ export const useGetPostListQuery = (
 };
 
 export const useGetMyPostListQuery = (
-  body: PostSchema["getMyPostList"]["request"],
+  body: PostApiSchema["getMyPostList"]["request"],
 ) => {
   const query = useQuery({
     queryKey: ["myPostList"],
-    queryFn: () => postRepo().getMyPostList({ ...body }),
+    queryFn: () => postRepo().getMyPostList(body),
     retry: 1,
     retryDelay: 1000,
     staleTime: Infinity,
@@ -35,11 +35,11 @@ export const useGetMyPostListQuery = (
 };
 
 export const useGetMyLikedPostListQuery = (
-  body: PostSchema["getMyLikedPostList"]["request"],
+  body: PostApiSchema["getMyLikedPostList"]["request"],
 ) => {
   const query = useQuery({
     queryKey: ["myLikedPostList"],
-    queryFn: () => postRepo().getMyLikedPostList({ ...body }),
+    queryFn: () => postRepo().getMyLikedPostList(body),
     retry: 1,
     retryDelay: 1000,
     staleTime: Infinity,
