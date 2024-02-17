@@ -10,8 +10,17 @@
 
 import { z } from "zod";
 import createHttpClient, { HttpClient } from "./httpClient";
+import { CoordsSchema, PostSchema } from "./post";
 
-export const ChallengeSchema = {
+export const ChallengeApiSchema = {
+  getTodayChallenge: {
+    request: CoordsSchema,
+    response: PostSchema,
+  },
+  getOtherChallenges: {
+    request: CoordsSchema,
+    response: z.array(PostSchema),
+  },
   postChallenge: {
     request: z.object({
       post_id: z.number(),
@@ -23,12 +32,29 @@ export const ChallengeSchema = {
     }),
   },
 };
-export type ChallengeSchema = {
+
+export type ChallengeApiSchema = {
+  getTodayChallenge: {
+    request: z.infer<
+      (typeof ChallengeApiSchema)["getTodayChallenge"]["request"]
+    >;
+    response: z.infer<
+      (typeof ChallengeApiSchema)["getTodayChallenge"]["response"]
+    >;
+  };
+  getOtherChallenges: {
+    request: z.infer<
+      (typeof ChallengeApiSchema)["getOtherChallenges"]["request"]
+    >;
+    response: z.infer<
+      (typeof ChallengeApiSchema)["getOtherChallenges"]["response"]
+    >;
+  };
   postChallenge: {
-    request: z.infer<(typeof ChallengeSchema)["postChallenge"]["request"]>;
+    request: z.infer<(typeof ChallengeApiSchema)["postChallenge"]["request"]>;
   };
   postSubmit: {
-    request: z.infer<(typeof ChallengeSchema)["postSubmit"]["request"]>;
+    request: z.infer<(typeof ChallengeApiSchema)["postSubmit"]["request"]>;
   };
 };
 
@@ -39,6 +65,31 @@ export class ChallengeRepository {
     this.cli = cli;
   }
 
+  async getTodayChallenge(
+    params: ChallengeApiSchema["getTodayChallenge"]["request"],
+  ): Promise<ChallengeApiSchema["getTodayChallenge"]["response"]> {
+    const queryParams = new URLSearchParams();
+    queryParams.append("latitude", params.latitude.toString());
+    queryParams.append("longitude", params.longitude.toString());
+    return this.cli
+      .get(`/api/challenge/today?${queryParams.toString()}`)
+      .then((res) => res?.data)
+      .catch((err) => err);
+  }
+
+  async getOtherChallenges(
+    params: ChallengeApiSchema["getOtherChallenges"]["request"],
+  ): Promise<ChallengeApiSchema["getOtherChallenges"]["response"]> {
+    const queryParams = new URLSearchParams();
+    queryParams.append("latitude", params.latitude.toString());
+    queryParams.append("longitude", params.longitude.toString());
+    return this.cli
+      .get(`/api/challenge/?${queryParams.toString()}`)
+      .then((res) => res?.data)
+      .catch((err) => err);
+  }
+
+  // TODO: unknown DTO
   async postChallenge(body: ChallengeSchema["postChallenge"]["request"]) {
     try {
       const validBody = ChallengeSchema.postChallenge.request.parse(body);

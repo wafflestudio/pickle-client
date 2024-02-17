@@ -1,32 +1,40 @@
 import { HttpClient } from "./httpClient";
 import { z } from "zod";
 
-export const PostSchema = {
+export const CoordsSchema = z.object({
+  latitude: z.number(),
+  longitude: z.number(),
+});
+
+export type CoordsSchema = z.infer<typeof CoordsSchema>;
+
+export const PostSchema = z.object({
+  id: z.number(),
+  text: z.string(),
+  image: z.string(),
+  author_id: z.number(),
+  author_name: z.string(),
+  created_at: z.string(),
+  updated_at: z.string(),
+  like_count: z.number(),
+  challenge_count: z.number(),
+  latitude: z.number(),
+  longitude: z.number(),
+  is_liked: z.boolean(),
+  distance: z.number(),
+});
+
+export type PostSchema = z.infer<typeof PostSchema>;
+
+export const PostApiSchema = {
   getPostList: {
     request: z.object({
-      latitude: z.number(),
-      longitude: z.number(),
+      ...CoordsSchema.shape,
       limit: z.number().optional(),
       cursor: z.string().optional(),
     }),
     response: z.object({
-      results: z.array(
-        z.object({
-          id: z.number(),
-          text: z.string(),
-          image: z.string(),
-          author_id: z.number(),
-          author_name: z.string(),
-          created_at: z.string(),
-          updated_at: z.string(),
-          like_count: z.number(),
-          challenge_count: z.number(),
-          latitude: z.number(),
-          longitude: z.number(),
-          is_liked: z.boolean(),
-          distance: z.number(),
-        }),
-      ),
+      results: z.array(PostSchema),
       count: z.number(),
       next: z.string(),
       previous: z.string(),
@@ -38,23 +46,7 @@ export const PostSchema = {
       cursor: z.string().optional(),
     }),
     response: z.object({
-      results: z.array(
-        z.object({
-          id: z.number(),
-          text: z.string(),
-          image: z.string(),
-          author_id: z.number(),
-          author_name: z.string(),
-          created_at: z.string(),
-          updated_at: z.string(),
-          like_count: z.number(),
-          challenge_count: z.number(),
-          latitude: z.number(),
-          longitude: z.number(),
-          is_liked: z.boolean(),
-          distance: z.number(),
-        }),
-      ),
+      results: z.array(PostSchema),
       count: z.number(),
       next: z.string(),
       previous: z.string(),
@@ -118,18 +110,18 @@ export const PostSchema = {
   },
 };
 
-export type PostSchema = {
+export type PostApiSchema = {
   getPostList: {
-    request: z.infer<(typeof PostSchema)["getPostList"]["request"]>;
-    response: z.infer<(typeof PostSchema)["getPostList"]["response"]>;
+    request: z.infer<(typeof PostApiSchema)["getPostList"]["request"]>;
+    response: z.infer<(typeof PostApiSchema)["getPostList"]["response"]>;
   };
   getMyPostList: {
-    request: z.infer<(typeof PostSchema)["getMyPostList"]["request"]>;
-    response: z.infer<(typeof PostSchema)["getMyPostList"]["response"]>;
+    request: z.infer<(typeof PostApiSchema)["getMyPostList"]["request"]>;
+    response: z.infer<(typeof PostApiSchema)["getMyPostList"]["response"]>;
   };
   getMyLikedPostList: {
-    request: z.infer<(typeof PostSchema)["getMyLikedPostList"]["request"]>;
-    response: z.infer<(typeof PostSchema)["getMyLikedPostList"]["response"]>;
+    request: z.infer<(typeof PostApiSchema)["getMyLikedPostList"]["request"]>;
+    response: z.infer<(typeof PostApiSchema)["getMyLikedPostList"]["response"]>;
   };
   getPost: {
     request: z.infer<(typeof PostSchema)["getPost"]["request"]>;
@@ -147,7 +139,9 @@ export class PostRepository {
     this.cli = cli;
   }
 
-  async getPostList(body: PostSchema["getPostList"]["request"]) {
+  async getPostList(
+    body: PostApiSchema["getPostList"]["request"],
+  ): Promise<PostApiSchema["getPostList"]["response"]> {
     const { latitude, longitude, limit, cursor } = body;
     const queryParams = new URLSearchParams();
     queryParams.append("latitude", latitude.toString());
@@ -161,7 +155,9 @@ export class PostRepository {
       .catch((e) => Promise.reject(e));
   }
 
-  async getMyPostList(body: PostSchema["getMyPostList"]["request"]) {
+  async getMyPostList(
+    body: PostApiSchema["getMyPostList"]["request"],
+  ): Promise<PostApiSchema["getMyPostList"]["response"]> {
     const { limit, cursor } = body;
     const queryParams = new URLSearchParams();
     if (cursor) queryParams.append("cursor", cursor);
@@ -173,7 +169,9 @@ export class PostRepository {
       .catch((e) => Promise.reject(e));
   }
 
-  async getMyLikedPostList(body: PostSchema["getMyLikedPostList"]["request"]) {
+  async getMyLikedPostList(
+    body: PostApiSchema["getMyLikedPostList"]["request"],
+  ): Promise<PostApiSchema["getMyLikedPostList"]["response"]> {
     const { limit, cursor } = body;
     const queryParams = new URLSearchParams();
     if (cursor) queryParams.append("cursor", cursor);

@@ -14,27 +14,47 @@ const GeolocationNotSupportedError: GeolocationError = {
   message: "GPS가 지원되지 않는 기기입니다.",
 };
 
-export function useGeolocation() {
-  const [position, setPosition] = useState<GeolocationPosition | null>(null);
-  const [error, setError] = useState<GeolocationError | null>(null);
-  const [status, setStatus] = useState<"pending" | "success" | "error">("pending");
+type GeolocationData =
+  | {
+      position: GeolocationPosition;
+      error: null;
+      status: "success";
+    }
+  | {
+      position: GeolocationPosition | null;
+      error: GeolocationError;
+      status: "error";
+    }
+  | {
+      position: null;
+      error: null;
+      status: "pending";
+    };
+
+export function useGeolocation(): GeolocationData {
+  const [data, setData] = useState<GeolocationData>({
+    position: null,
+    error: null,
+    status: "pending",
+  });
 
   const onSuccess: PositionCallback = (position) => {
-    setPosition(position);
-    setError(null);
-    setStatus("success");
+    setData({ position, error: null, status: "success" });
   };
 
   // 에러가 발생해도 마지막 위치 정보는 유지합니다.
   const onError: PositionErrorCallback = (error) => {
-    setError(error);
-    setStatus("error");
+    setData((prev) => ({ position: prev.position, error, status: "error" }));
   };
 
   useEffect(() => {
     const geo = navigator.geolocation;
     if (!geo) {
-      setError(GeolocationNotSupportedError);
+      setData({
+        position: null,
+        error: GeolocationNotSupportedError,
+        status: "error",
+      });
       return;
     }
 
@@ -43,7 +63,7 @@ export function useGeolocation() {
     return () => geo.clearWatch(watchId);
   }, []);
 
-  return { position, error, status };
+  return data;
 }
 
 export function getGeolocation() {

@@ -37,8 +37,7 @@ export default function Login() {
           />
         </Inputs>
         <ErrorMessage>
-          {login.isError && JSON.stringify(login.error)}
-          {/* // TODO: 에러 개선 */}
+          {login.isError && "아이디 또는 비밀번호를 확인해주세요."}
         </ErrorMessage>
         <Buttons>
           <FullButton
