@@ -11,6 +11,7 @@ import Wip from "../pages/common/Wip";
 import Home from "../pages/home";
 import GuestLayout from "../layouts/guest";
 import Splash from "../pages/splash";
+import Login from "../pages/login";
 
 const router = createBrowserRouter([
   {
@@ -22,7 +23,7 @@ const router = createBrowserRouter([
         element: <GuestLayout />,
         children: [
           { path: "splash", element: <Splash /> },
-          { path: "login", element: <Wip name="로그인" color="white" /> },
+          { path: "login", element: <Login /> },
           {
             path: "register",
             element: <Wip name="회원가입" color="white" />,

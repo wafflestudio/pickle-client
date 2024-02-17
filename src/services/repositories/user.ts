@@ -12,6 +12,8 @@ export const useUserQuery = () => {
   const query = useQuery({
     queryKey: ["user", "me"],
     queryFn: () => userRepo().getMe(),
+    retry: 0,
+    staleTime: Infinity,
   });
 
   const login = useMutation({
