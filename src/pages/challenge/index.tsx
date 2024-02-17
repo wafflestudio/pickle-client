@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import { Page } from "../../components/common/Page";
+import { FullButton } from "../../components/button/FullButton";
 
 export function Challenge() {
   return (
@@ -11,9 +12,14 @@ export function Challenge() {
           <br /> 떠나보세요!
         </TitleMain>
       </TitleWrapper>
+
       <ImageWrapper>
         <Bubble>근처에 가면 비밀 메시지를 볼 수 있어요.</Bubble>
-        <Image width={340} height={340} />
+        <Image
+          src="https://seeya-server.s3.amazonaws.com/uploads/post_images/2024/02/18/030647_wackathon_1.jpeg"
+          width={340}
+          height={340}
+        />
       </ImageWrapper>
 
       <DistanceWrapper>
@@ -21,6 +27,8 @@ export function Challenge() {
         <DistanceMain>16분</DistanceMain>
         <DistanceSub>이면 갈 수 있어요.</DistanceSub>
       </DistanceWrapper>
+
+      <FullButton theme="black">도전하기</FullButton>
     </Main>
   );
 }
@@ -74,15 +82,14 @@ const Image = styled.img`
 
 const Bubble = styled.div`
   position: absolute;
-  top: 0;
+  top: 24px;
   width: 267px;
-  height: 51px;
+  height: 72px;
   border-radius: 8px;
-  background: #d9d9d9;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background: url("/backgrounds/bubble_bg.png");
+  background-size: cover;
+  background-position: center;
+  padding-top: 18px;
 
   color: #1e1e1e;
   text-align: center;
