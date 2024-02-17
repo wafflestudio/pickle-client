@@ -14,6 +14,15 @@ import emotionNormalize from "emotion-normalize";
 
 const globalStyle = css`
   @import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css);
+  @import url("https://fonts.cdnfonts.com/css/vcr-osd-mono");
+  @font-face {
+    font-family: "UhBeeBEOJJI";
+    src: url("https://cdn.jsdelivr.net/gh/wizfile/font/UhBeeBEOJJI.eot");
+    src: url("https://cdn.jsdelivr.net/gh/wizfile/font/UhBeeBEOJJI.woff")
+      format("woff");
+    font-weight: 600;
+    font-style: normal;
+  }
 
   ${emotionNormalize}
   html,

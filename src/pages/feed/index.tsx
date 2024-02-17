@@ -5,35 +5,44 @@
  */
 
 import styled from "@emotion/styled";
+import Post from "../../components/feed/Post";
 import { Page } from "../../components/common/Page";
-import Card from "../../components/home/Card";
 import { hideScroll } from "../../utils/emotion/scroll";
 
 export default function Feed() {
   const posts = [
     {
-      imageUrl: "https://via.placeholder.com/150",
-      username: "닉네임1930",
-      likeCount: 10,
+      username: "cocoball",
+      date: "24 2 17 SAT",
       isLiked: true,
+      likeCount: 20,
+      challengeCount: 3,
+      imageUrl:
+        "https://mblogthumb-phinf.pstatic.net/MjAyMjAxMjVfMjAy/MDAxNjQzMTAyOTk2NjE0.gw_H_jjBM64svaftcnheR6-mHHlmGOyrr6htAuxPETsg.8JJSQNEA5HX2WmrshjZ-VjmJWqhmgE40Qm5csIud9VUg.JPEG.minziminzi128/IMG_7374.JPG?type=w800",
+      description:
+        "이것은 50자 테스트입니다람쥐 와커톤 파이팅 피클팀 최고입니다 파이팅팅팅 50자 채워보자",
     },
     {
-      imageUrl: "https://via.placeholder.com/150",
-      username: "닉네임1930",
-      likeCount: 24,
-      isLiked: false,
-    },
-    {
-      imageUrl: "https://via.placeholder.com/150",
-      username: "닉네임1930",
-      likeCount: 24,
-      isLiked: false,
-    },
-    {
-      imageUrl: "https://via.placeholder.com/150",
-      username: "닉네임1930",
-      likeCount: 24,
+      username: "cocoball",
+      date: "24 2 17 SAT",
       isLiked: true,
+      likeCount: 20,
+      challengeCount: 3,
+      imageUrl:
+        "https://mblogthumb-phinf.pstatic.net/MjAyMjAxMjVfMjAy/MDAxNjQzMTAyOTk2NjE0.gw_H_jjBM64svaftcnheR6-mHHlmGOyrr6htAuxPETsg.8JJSQNEA5HX2WmrshjZ-VjmJWqhmgE40Qm5csIud9VUg.JPEG.minziminzi128/IMG_7374.JPG?type=w800",
+      description:
+        "이것은 50자 테스트입니다람쥐 와커톤 파이팅 피클팀 최고입니다 파이팅팅팅 50자 채워보자",
+    },
+    {
+      username: "cocoball",
+      date: "24 2 17 SAT",
+      isLiked: true,
+      likeCount: 20,
+      challengeCount: 3,
+      imageUrl:
+        "https://mblogthumb-phinf.pstatic.net/MjAyMjAxMjVfMjAy/MDAxNjQzMTAyOTk2NjE0.gw_H_jjBM64svaftcnheR6-mHHlmGOyrr6htAuxPETsg.8JJSQNEA5HX2WmrshjZ-VjmJWqhmgE40Qm5csIud9VUg.JPEG.minziminzi128/IMG_7374.JPG?type=w800",
+      description:
+        "이것은 50자 테스트입니다람쥐 와커톤 파이팅 피클팀 최고입니다 파이팅팅팅 50자 채워보자",
     },
   ];
 
@@ -42,14 +51,35 @@ export default function Feed() {
       <Contents>
         <Greeting>
           <Title>{"둘러보기"}</Title>
-          <Desc>{"다른 유저의 사진에도 도전해볼 수 있어요"}</Desc>
+          <Desc>{"현재 위치에서 가까운 게시물이 보입니다."}</Desc>
         </Greeting>
 
         <Grid>
-          {posts?.map(({ imageUrl, isLiked, likeCount, username }) => {
-            const post = { imageUrl, isLiked, likeCount, username };
-            return <Card key={imageUrl} {...post} />;
-          })}
+          {posts?.map(
+            (
+              {
+                date,
+                isLiked,
+                username,
+                imageUrl,
+                likeCount,
+                description,
+                challengeCount,
+              },
+              index,
+            ) => {
+              const post = {
+                date,
+                isLiked,
+                username,
+                imageUrl,
+                likeCount,
+                description,
+                challengeCount,
+              };
+              return <Post {...post} isOdd={index % 2 !== 0} />;
+            },
+          )}
         </Grid>
       </Contents>
     </Main>
@@ -70,13 +100,14 @@ const Contents = styled.div`
   flex-direction: column;
   flex: 1;
   gap: 48px;
-  padding: 20px 16px;
+  margin-bottom: 120px;
 `;
 
 const Greeting = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
+  padding: 20px 16px 0;
 `;
 
 const Title = styled.header`
