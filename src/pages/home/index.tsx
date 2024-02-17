@@ -6,7 +6,7 @@
 
 import styled from "@emotion/styled";
 import { Page } from "../../components/common/Page";
-import { useChallengeQuery } from "../../services/repositories/challenge";
+// import { useChallengeQuery } from "../../services/repositories/challenge";
 
 export default function Home() {
   // const { isLoading, data: challenge } = useChallengeQuery(1);
