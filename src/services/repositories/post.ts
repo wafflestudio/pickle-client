@@ -33,3 +33,16 @@ export const useGetMyPostListQuery = (
   });
   return query;
 };
+
+export const useGetMyLikedPostListQuery = (
+  body: PostSchema["getMyLikedPostList"]["request"],
+) => {
+  const query = useQuery({
+    queryKey: ["myLikedPostList"],
+    queryFn: () => postRepo().getMyLikedPostList({ ...body }),
+    retry: 1,
+    retryDelay: 1000,
+    staleTime: Infinity,
+  });
+  return query;
+};

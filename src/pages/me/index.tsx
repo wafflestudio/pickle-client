@@ -6,7 +6,10 @@ import { PostSchema } from "../../services/apis/post";
 import { hideScroll } from "../../utils/emotion/scroll";
 import ProfileIcon from "../../components/icons/Profile";
 import { useUserQuery } from "../../services/repositories/user";
-import { useGetMyPostListQuery } from "../../services/repositories/post";
+import {
+  useGetMyLikedPostListQuery,
+  useGetMyPostListQuery,
+} from "../../services/repositories/post";
 
 type AlignType = "left" | "right";
 
@@ -18,7 +21,11 @@ export default function Me() {
   >([]);
 
   const { me } = useUserQuery();
-  const { data: myFeedList, isLoading } = useGetMyPostListQuery({
+  const { data: myFeedList } = useGetMyPostListQuery({
+    cursor,
+    limit: 200, // TODO 무한스크롤 수정
+  });
+  const { data: myLikedFeedList } = useGetMyLikedPostListQuery({
     cursor,
     limit: 200, // TODO 무한스크롤 수정
   });
@@ -27,9 +34,9 @@ export default function Me() {
     if (selectedTab === "myFeed") {
       setPosts(myFeedList?.results ?? []);
     } else if (selectedTab === "liked") {
-      setPosts([]);
+      setPosts(myLikedFeedList?.results ?? []);
     }
-  }, [myFeedList?.results, selectedTab]);
+  }, [myFeedList?.results, myLikedFeedList?.results, selectedTab]);
 
   return (
     <Main css={hideScroll}>
@@ -66,11 +73,13 @@ export default function Me() {
           </TabList>
         </Profile>
         {/* TODO: 로딩처리 및 무한스크롤 */}
-        {!isLoading && posts?.length ? (
+
+        {posts?.length ? (
           <Grid>
             {posts?.map(({ id, image }, index) => {
               return (
                 <ImageContainer
+                  key={image}
                   to={`/${id}`} // TODO: 라우트
                   $align={
                     index % 2 === 0
