@@ -12,7 +12,8 @@ export const useUserQuery = () => {
   const query = useQuery({
     queryKey: ["user", "me"],
     queryFn: () => userRepo().getMe(),
-    retry: 0,
+    retry: 1,
+    retryDelay: 1000,
     staleTime: Infinity,
   });
 
