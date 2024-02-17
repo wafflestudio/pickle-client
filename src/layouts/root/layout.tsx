@@ -25,4 +25,6 @@ const Main = styled.main`
   position: relative;
   width: 100vw;
   overflow: hidden;
+  max-width: var(--max-width);
+  margin: auto;
 `;

@@ -6,6 +6,7 @@
 
 import styled from "@emotion/styled";
 import { Page } from "../../components/common/Page";
+import Header from "../../components/common/Header";
 // import { useChallengeQuery } from "../../services/repositories/challenge";
 
 export default function Home() {
@@ -13,11 +14,15 @@ export default function Home() {
   // console.log(challenge);
   // console.log(isLoading);
 
-  return <Main></Main>;
+  return (
+    <Main>
+      <Header />
+    </Main>
+  );
 }
 
 const Main = styled(Page)`
   display: flex;
   flex-direction: column;
-  height: calc(100vh - var(--nav-height));
+  height: calc(100vh - var(--nav-height) - var(--nav-bottom-margin));
 `;
