@@ -10,8 +10,9 @@ import HomeLayout from "../layouts/home";
 import Wip from "../pages/common/Wip";
 import Home from "../pages/home";
 import GuestLayout from "../layouts/guest";
-import Splash from "../pages/splash";
 import Login from "../pages/login";
+import Hello from "../pages/hello";
+import Register from "../pages/register/index";
 
 const router = createBrowserRouter([
   {
@@ -35,11 +36,11 @@ const router = createBrowserRouter([
         path: "",
         element: <GuestLayout />,
         children: [
-          { path: "splash", element: <Splash /> },
+          { path: "hello", element: <Hello /> },
           { path: "login", element: <Login /> },
           {
             path: "register",
-            element: <Wip name="회원가입" color="white" />,
+            element: <Register />,
           },
         ],
       },

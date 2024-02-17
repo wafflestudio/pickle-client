@@ -19,11 +19,13 @@ export const useUserQuery = () => {
   const login = useMutation({
     mutationFn: (body: UserSchema["login"]["request"]) =>
       userRepo().postLogin(body),
+    onSuccess: () => query.refetch(),
   });
 
   const signup = useMutation({
     mutationFn: (body: UserSchema["signup"]["request"]) =>
       userRepo().postSignup(body),
+    onSuccess: () => query.refetch(),
   });
 
   return { me: query, login, signup };

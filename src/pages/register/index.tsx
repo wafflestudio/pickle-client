@@ -1,23 +1,25 @@
 import { useState } from "react";
-import { useUserQuery } from "../../services/repositories/user";
+
 import styled from "@emotion/styled";
 import { Page } from "../../components/common/Page";
 import { FullButton } from "../../components/button/FullButton";
 import FullInput from "../../components/input/FullInput";
-import { Link, useNavigate } from "react-router-dom";
+import { useUserQuery } from "../../services/repositories/user";
+import { useNavigate } from "react-router-dom";
 
-export default function Login() {
-  const { login } = useUserQuery();
+export default function Register() {
+  const { signup } = useUserQuery();
   const [input, setInput] = useState({ email: "", password: "" });
   const navigate = useNavigate();
 
   return (
     <Main>
-      <Title>로그인</Title>
+      <Title>회원가입</Title>
       <Form
         onSubmit={(e) => {
           e.preventDefault();
-          login.mutateAsync(input).then(() => navigate("/"));
+          if (!input.email || !input.password) return;
+          signup.mutateAsync(input).then(() => navigate("/"));
         }}
       >
         <Inputs>
@@ -37,18 +39,13 @@ export default function Login() {
           />
         </Inputs>
         <ErrorMessage>
-          {login.isError && JSON.stringify(login.error)}
+          {signup.isError && JSON.stringify(signup.error)}
           {/* // TODO: 에러 개선 */}
         </ErrorMessage>
         <Buttons>
-          <FullButton
-            theme="black"
-            type="submit"
-            disabled={!input.email || !input.password || login.isPending}
-          >
-            로그인
+          <FullButton theme="black" type="submit">
+            회원가입
           </FullButton>
-          <RegisterButton to="/register">회원가입</RegisterButton>
         </Buttons>
       </Form>
     </Main>
@@ -67,10 +64,7 @@ const Title = styled.h1`
   text-align: center;
   margin-bottom: 47px;
 `;
-const Form = styled.form`
-  width: 100%;
-  position: relative;
-`;
+const Form = styled.form``;
 const Inputs = styled.div`
   display: flex;
   flex-direction: column;
@@ -99,12 +93,4 @@ const Buttons = styled.div`
   flex-direction: column;
   gap: 20px;
   align-items: center;
-`;
-const RegisterButton = styled(Link)`
-  color: #969696;
-  text-align: center;
-  font-family: "Spoqa Han Sans Neo";
-  font-size: 13px;
-  font-weight: 400;
-  text-decoration-line: underline;
 `;
