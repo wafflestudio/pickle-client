@@ -7,6 +7,7 @@
 
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { ChallengeApiSchema, challengeRepo } from "../apis/challenge";
+
 export const useTodayChallengeQuery = (
   params: ChallengeApiSchema["getTodayChallenge"]["request"],
 ) => {
@@ -27,7 +28,7 @@ export const useOhterChallengesQuery = (
   return query;
 };
 
-export const useChallengeQuery = () => {
+export const useChallengeStartQuery = () => {
   const start = useMutation({
     mutationFn: (body: ChallengeApiSchema["postChallenge"]["request"]) =>
       challengeRepo().postChallenge(body),
@@ -46,4 +47,24 @@ export const useChallengeQuery = () => {
   });
 
   return { start, submit, getEvaluation, challengeRepo };
+  return { start };
+};
+
+export const useChallengeQuery = (challengeId: number) => {
+  const query = useQuery({
+    queryKey: ["challenge", { challengeId }],
+    queryFn: () => challengeRepo().get(challengeId),
+    retry: 1,
+  });
+  const submit = useMutation({
+    mutationFn: (body: ChallengeApiSchema["postSubmit"]["request"]) =>
+      challengeRepo().postSubmit(challengeId, body),
+    onSuccess: () => query.refetch(),
+  });
+  const getEvaluation = useMutation({
+    mutationFn: () => challengeRepo().getEvaluation(challengeId),
+    onSuccess: () => query.refetch(),
+  });
+
+  return { challenge: query, submit, getEvaluation };
 };

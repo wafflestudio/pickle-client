@@ -1,14 +1,35 @@
 import styled from "@emotion/styled";
 import { Page } from "../../components/common/Page";
 import { FullButton } from "../../components/button/FullButton";
-import { useChallengeQuery } from "../../services/repositories/challenge";
+import { useChallengeStartQuery } from "../../services/repositories/challenge";
 import { useNavigate, useParams } from "react-router";
 import { css, keyframes } from "@emotion/react";
+import { useGetPostQuery } from "../../services/repositories/post";
+import { getGeolocation } from "../../utils/geolocation/hooks";
+import { distance } from "../../utils/geolocation/utils";
+import { useEffect, useState } from "react";
 
 export function Challenge() {
-  const { start } = useChallengeQuery();
+  const { start } = useChallengeStartQuery();
+  const [currentLocation, setCurrentLocation] = useState<{
+    latitude: number;
+    longitude: number;
+  } | null>(null);
   const params = useParams();
   const navigate = useNavigate();
+  const query = useGetPostQuery(Number(params.postId));
+
+  useEffect(() => {
+    getGeolocation().then((position) => {
+      setCurrentLocation({
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+      });
+    });
+  }, []);
+
+  if (query.status !== "success") return null;
+
   return (
     <Main>
       <TitleWrapper>
@@ -20,15 +41,18 @@ export function Challenge() {
       </TitleWrapper>
       <ImageWrapper>
         <Bubble>근처에 가면 비밀 메시지를 볼 수 있어요.</Bubble>
-        <Image
-          src="https://seeya-server.s3.amazonaws.com/uploads/post_images/2024/02/18/030647_wackathon_1.jpeg"
-          width={340}
-          height={340}
-        />
+        <Image src={query.data.image} width={340} height={340} />
       </ImageWrapper>
       <DistanceWrapper>
         <DistanceSub>현재 위치에서</DistanceSub>
-        <DistanceMain>16분</DistanceMain>
+        <DistanceMain>
+          {currentLocation &&
+            distance(currentLocation, {
+              latitude: query.data.latitude,
+              longitude: query.data.longitude,
+            })}
+          분
+        </DistanceMain>
         <DistanceSub>이면 갈 수 있어요.</DistanceSub>
       </DistanceWrapper>
 
@@ -40,11 +64,11 @@ export function Challenge() {
         `}
         theme="black"
         onClick={() => {
-          if (params.challengeId)
+          if (params.postId)
             start
-              .mutateAsync({ post_id: Number(params.challengeId) })
-              .then(() => {
-                navigate("./try");
+              .mutateAsync({ post_id: Number(params.postId) })
+              .then((res) => {
+                if (res.id) navigate(`./${res.id}/try`);
               });
         }}
       >
@@ -108,7 +132,7 @@ const ImageWrapper = styled.div`
   align-items: center;
   animation: ${Reveal} 1s ease;
   animation-fill-mode: backwards;
-  animation-delay: 0s;
+  animation-delay: 0.6s;
 `;
 
 const Image = styled.img`
@@ -135,7 +159,7 @@ const Bubble = styled.div`
 
   animation: ${Reveal} 0.9s ease;
   animation-fill-mode: backwards;
-  animation-delay: 2s;
+  animation-delay: 2.4s;
 `;
 
 const DistanceWrapper = styled.div`

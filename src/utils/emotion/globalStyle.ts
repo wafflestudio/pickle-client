@@ -23,6 +23,13 @@ const globalStyle = css`
     font-weight: 600;
     font-style: normal;
   }
+  @font-face {
+    font-family: "UhBeemysen";
+    src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_five@.2.0/UhBeemysen.woff")
+      format("woff");
+    font-weight: normal;
+    font-style: normal;
+  }
 
   ${emotionNormalize}
   html,
