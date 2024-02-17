@@ -15,6 +15,7 @@ export const UserSchema = {
       id: z.number(),
       email: z.string().email(),
       username: z.string(),
+      image: z.string().nullable(),
     }),
   },
   checkEmail: {
