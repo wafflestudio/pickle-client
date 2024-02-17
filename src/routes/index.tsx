@@ -20,18 +20,6 @@ const router = createBrowserRouter([
     children: [
       {
         path: "",
-        element: <GuestLayout />,
-        children: [
-          { path: "splash", element: <Splash /> },
-          { path: "login", element: <Login /> },
-          {
-            path: "register",
-            element: <Wip name="회원가입" color="white" />,
-          },
-        ],
-      },
-      {
-        path: "",
         element: <HomeLayout />,
         children: [
           { path: "", element: <Home /> },
@@ -41,6 +29,18 @@ const router = createBrowserRouter([
             element: <Wip name="업로드" color="#4b52b1" />,
           },
           { path: "me", element: <Wip name="마이페이지" color="#c63f30" /> },
+        ],
+      },
+      {
+        path: "",
+        element: <GuestLayout />,
+        children: [
+          { path: "splash", element: <Splash /> },
+          { path: "login", element: <Login /> },
+          {
+            path: "register",
+            element: <Wip name="회원가입" color="white" />,
+          },
         ],
       },
     ],
