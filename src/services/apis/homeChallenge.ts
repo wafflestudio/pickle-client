@@ -25,6 +25,23 @@ export const HomeChallengeSchema = {
       }),
     ),
   },
+  getRank: {
+    request: z.number(),
+    response: z.array(
+      z.object({
+        id: z.number(),
+        coordinate: z.object({
+          latitude: z.number(),
+          longitude: z.number(),
+        }),
+        start_time: z.string(),
+        image: z.string(),
+        similarity: z.number(),
+        result: z.string(),
+        username: z.string(),
+      }),
+    ),
+  },
 };
 
 export type HomeChallengeSchema = {
@@ -35,6 +52,10 @@ export type HomeChallengeSchema = {
     response: z.infer<
       (typeof HomeChallengeSchema)["getChallengeList"]["response"]
     >;
+  };
+  getRank: {
+    request: z.infer<(typeof HomeChallengeSchema)["getRank"]["request"]>;
+    response: z.infer<(typeof HomeChallengeSchema)["getRank"]["response"]>;
   };
 };
 
@@ -54,6 +75,13 @@ export class HomeChallengeRepository {
 
     return await this.cli
       .get(`/api/challenge/?${queryParams.toString()}`)
+      .then((res) => res.data)
+      .catch((e) => Promise.reject(e));
+  }
+
+  async getRank(feedId: HomeChallengeSchema["getRank"]["request"]) {
+    return await this.cli
+      .get(`/api/post/${feedId}/challenges`)
       .then((res) => res.data)
       .catch((e) => Promise.reject(e));
   }

@@ -13,3 +13,16 @@ export const useGetChallengeList = (
   });
   return query;
 };
+
+export const useGetRank = (
+  feedId: HomeChallengeSchema["getRank"]["request"],
+) => {
+  const query = useQuery({
+    queryKey: ["rank"],
+    queryFn: () => homeChallengeRepo().getRank(feedId),
+    retry: 1,
+    retryDelay: 1000,
+    staleTime: Infinity,
+  });
+  return query;
+};
