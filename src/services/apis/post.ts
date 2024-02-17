@@ -60,6 +60,34 @@ export const PostSchema = {
       previous: z.string(),
     }),
   },
+  getMyLikedPostList: {
+    request: z.object({
+      limit: z.number().optional(),
+      cursor: z.string().optional(),
+    }),
+    response: z.object({
+      results: z.array(
+        z.object({
+          id: z.number(),
+          text: z.string(),
+          image: z.string(),
+          author_id: z.number(),
+          author_name: z.string(),
+          created_at: z.string(),
+          updated_at: z.string(),
+          like_count: z.number(),
+          challenge_count: z.number(),
+          latitude: z.number(),
+          longitude: z.number(),
+          is_liked: z.boolean(),
+          distance: z.number(),
+        }),
+      ),
+      count: z.number(),
+      next: z.string(),
+      previous: z.string(),
+    }),
+  },
 };
 
 export type PostSchema = {
@@ -70,6 +98,10 @@ export type PostSchema = {
   getMyPostList: {
     request: z.infer<(typeof PostSchema)["getMyPostList"]["request"]>;
     response: z.infer<(typeof PostSchema)["getMyPostList"]["response"]>;
+  };
+  getMyLikedPostList: {
+    request: z.infer<(typeof PostSchema)["getMyLikedPostList"]["request"]>;
+    response: z.infer<(typeof PostSchema)["getMyLikedPostList"]["response"]>;
   };
 };
 
@@ -101,6 +133,18 @@ export class PostRepository {
 
     return await this.cli
       .get(`/api/post/my/list?${queryParams.toString()}`)
+      .then((res) => res.data)
+      .catch((e) => Promise.reject(e));
+  }
+
+  async getMyLikedPostList(body: PostSchema["getMyLikedPostList"]["request"]) {
+    const { limit, cursor } = body;
+    const queryParams = new URLSearchParams();
+    if (cursor) queryParams.append("cursor", cursor);
+    if (limit) queryParams.append("limit", limit.toString());
+
+    return await this.cli
+      .get(`/api/post/liked_list?${queryParams.toString()}`)
       .then((res) => res.data)
       .catch((e) => Promise.reject(e));
   }
