@@ -13,6 +13,7 @@ import GuestLayout from "../layouts/guest";
 import Login from "../pages/login";
 import Hello from "../pages/hello";
 import Register from "../pages/register/index";
+import AuthLayout from "../layouts/auth/index";
 
 const router = createBrowserRouter([
   {
@@ -21,17 +22,31 @@ const router = createBrowserRouter([
     children: [
       {
         path: "",
-        element: <HomeLayout />,
+        element: <AuthLayout />,
         children: [
-          { path: "", element: <Home /> },
-          { path: "feed", element: <Wip name="피드" color="#87a284" /> },
           {
-            path: "upload",
-            element: <Wip name="업로드" color="#4b52b1" />,
+            path: "",
+            element: <HomeLayout />,
+            children: [
+              { path: "", element: <Home /> },
+              { path: "feed", element: <Wip name="피드" color="#87a284" /> },
+              {
+                path: "upload",
+                element: <Wip name="업로드" color="#4b52b1" />,
+              },
+              {
+                path: "me",
+                element: <Wip name="마이페이지" color="#c63f30" />,
+              },
+            ],
           },
-          { path: "me", element: <Wip name="마이페이지" color="#c63f30" /> },
+          {
+            path: "challenge/:challengeId",
+            element: <div>ChallengeLayout</div>,
+          },
         ],
       },
+
       {
         path: "",
         element: <GuestLayout />,
