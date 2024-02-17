@@ -18,22 +18,22 @@ export default function MainClipper(props: Props) {
         <path
           d="M0 457.663V232.63L194.812 345.188L0 457.663Z"
           fill="white"
-          fill-opacity="0.8"
+          fillOpacity="0.8"
         />
         <path
           d="M264.205 480H0V457.426L264.205 305V480Z"
           fill="white"
-          fill-opacity="0.6"
+          fillOpacity="0.6"
         />
         <path
           d="M389.999 297.503V480H264.012L264.094 224.811L389.999 297.503Z"
           fill="white"
-          fill-opacity="0.4"
+          fillOpacity="0.4"
         />
         <path
           d="M390 297.712V71.9937L194.594 184.811L390 297.712Z"
           fill="white"
-          fill-opacity="0.2"
+          fillOpacity="0.2"
         />
       </g>
     </svg>
