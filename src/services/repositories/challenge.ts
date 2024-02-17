@@ -6,12 +6,24 @@
  */
 
 import { useQuery } from "@tanstack/react-query";
-import { challengeRepo } from "../apis/challenge";
+import { ChallengeApiSchema, challengeRepo } from "../apis/challenge";
 
-export const useChallengeQuery = (challengeId: number) => {
+export const useTodayChallengeQuery = (
+  params: ChallengeApiSchema["getTodayChallenge"]["request"],
+) => {
   const query = useQuery({
-    queryKey: ["challenge", challengeId],
-    queryFn: () => challengeRepo().getChallenge(challengeId),
+    queryKey: ["todayChallenge"],
+    queryFn: () => challengeRepo().getTodayChallenge(params),
+  });
+  return query;
+};
+
+export const useOhterChallengesQuery = (
+  params: ChallengeApiSchema["getTodayChallenge"]["request"],
+) => {
+  const query = useQuery({
+    queryKey: ["otherChallenge", params.latitude, params.longitude],
+    queryFn: () => challengeRepo().getOtherChallenges(params),
   });
   return query;
 };

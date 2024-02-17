@@ -8,7 +8,39 @@
  * @module ChallengeRepository
  */
 
+import { z } from "zod";
 import createHttpClient, { HttpClient } from "./httpClient";
+import { CoordsSchema, PostSchema } from "./post";
+
+export const ChallengeApiSchema = {
+  getTodayChallenge: {
+    request: CoordsSchema,
+    response: PostSchema,
+  },
+  getOtherChallenges: {
+    request: CoordsSchema,
+    response: z.array(PostSchema),
+  },
+};
+
+export type ChallengeApiSchema = {
+  getTodayChallenge: {
+    request: z.infer<
+      (typeof ChallengeApiSchema)["getTodayChallenge"]["request"]
+    >;
+    response: z.infer<
+      (typeof ChallengeApiSchema)["getTodayChallenge"]["response"]
+    >;
+  };
+  getOtherChallenges: {
+    request: z.infer<
+      (typeof ChallengeApiSchema)["getOtherChallenges"]["request"]
+    >;
+    response: z.infer<
+      (typeof ChallengeApiSchema)["getOtherChallenges"]["response"]
+    >;
+  };
+};
 
 export class ChallengeRepository {
   private cli: HttpClient;
@@ -17,9 +49,26 @@ export class ChallengeRepository {
     this.cli = cli;
   }
 
-  async getChallenge(challengeId: number) {
+  async getTodayChallenge(
+    params: ChallengeApiSchema["getTodayChallenge"]["request"],
+  ): Promise<ChallengeApiSchema["getTodayChallenge"]["response"]> {
+    const queryParams = new URLSearchParams();
+    queryParams.append("latitude", params.latitude.toString());
+    queryParams.append("longitude", params.longitude.toString());
     return this.cli
-      .get(`/api/challenges/${challengeId}`)
+      .get(`/api/challenge/today?${queryParams.toString()}`)
+      .then((res) => res?.data)
+      .catch((err) => err);
+  }
+
+  async getOtherChallenges(
+    params: ChallengeApiSchema["getOtherChallenges"]["request"],
+  ): Promise<ChallengeApiSchema["getOtherChallenges"]["response"]> {
+    const queryParams = new URLSearchParams();
+    queryParams.append("latitude", params.latitude.toString());
+    queryParams.append("longitude", params.longitude.toString());
+    return this.cli
+      .get(`/api/challenge/?${queryParams.toString()}`)
       .then((res) => res?.data)
       .catch((err) => err);
   }
@@ -27,7 +76,7 @@ export class ChallengeRepository {
   // TODO: unknown DTO
   async postChallenge(challengeId: number, body: { [key: string]: unknown }) {
     return this.cli
-      .post(`/api/challenges/${challengeId}`, body)
+      .post(`/api/challenge/${challengeId}`, body)
       .then((res) => res?.data)
       .catch((err) => err);
   }

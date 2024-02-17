@@ -7,12 +7,12 @@ import CardClipper from "./CardClipper";
 
 interface Props {
   username: string;
-  imageUrl: string;
+  image: string;
   likeCount: number;
-  isLiked?: boolean;
+  isLiked: boolean;
 }
 
-export default function Card({ username, imageUrl, likeCount }: Props) {
+export default function Card({ username, image, likeCount }: Props) {
   const [size, setSize] = useState(0);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -24,7 +24,7 @@ export default function Card({ username, imageUrl, likeCount }: Props) {
 
   return (
     <Container ref={ref} $height={size}>
-      <Image src={imageUrl} alt="사진" />
+      <Image src={image} alt="사진" />
 
       <ClipCotainer>
         <CardClipper
