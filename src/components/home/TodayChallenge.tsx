@@ -20,10 +20,13 @@ export default function TodayChallenge({ challenge }: Props) {
   return (
     <ClipperContainer ref={ref} $height={height} $url={challenge?.image}>
       <Clipper>
-        <MainClipper color={"red"} />
+        <MainClipper fill={"#34685D"} isBlendLayer={false} />
+      </Clipper>
+      <Clipper>
+        <MainClipper fill={"white"} isBlendLayer={true} />
       </Clipper>
 
-      <ColorBlender />
+      {/* <ColorBlender /> */}
 
       <RepresenChallenge>
         <Title>{"오늘의 챌린지"}</Title>
@@ -44,16 +47,6 @@ const ClipperContainer = styled.div<{ $url?: string; $height: number }>`
   margin-top: calc((-1) * var(--header-height));
   padding-top: var(--header-height);
   position: relative;
-`;
-
-const ColorBlender = styled.div`
-  display: flex;
-  flex: 1;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background-color: aqua;
 `;
 
 const Clipper = styled.div`
@@ -77,8 +70,8 @@ const RepresenChallenge = styled.div`
   padding: 20px 24px;
   gap: 10px;
   border-radius: 4px;
-  z-index: 10;
 `;
+
 const Title = styled.header`
   color: #000;
   font-size: 24px;
