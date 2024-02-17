@@ -171,7 +171,7 @@ const ProfileSection = styled.div`
 
 const Title = styled.span`
   color: var(--kakao-logo, #000);
-  font-family: Inter;
+  font-family: "Spoqa Han Sans Neo";
   font-size: 24px;
   font-style: normal;
   font-weight: 500;
@@ -183,7 +183,7 @@ const ImageCount = styled.span`
   display: flex;
   flex: 1;
   color: var(--kakao-logo, #000);
-  font-family: Inter;
+  font-family: "Spoqa Han Sans Neo";
   font-size: 12px;
   font-style: normal;
   font-weight: 400;

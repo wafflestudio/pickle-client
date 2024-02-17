@@ -26,9 +26,6 @@ export default function Detail() {
 
   const [open, setOpen] = useState(false);
 
-  console.log(feed);
-  console.log(rankList);
-
   if (!feed) return null;
   const {
     created_at: date,
@@ -36,6 +33,7 @@ export default function Detail() {
     image: imageUrl,
     like_count: likeCount,
     text: description,
+    is_liked: isLiked,
     challenge_count: challengeCount,
     my_challenge_id: isChallenged,
   } = feed;
@@ -48,6 +46,7 @@ export default function Detail() {
         username={username}
         imageUrl={imageUrl}
         likeCount={likeCount}
+        isLiked={isLiked}
         description={description}
         challengeCount={challengeCount}
       />
@@ -139,6 +138,7 @@ const Contents = styled.div<{ $open: boolean }>`
   flex-direction: column;
   justify-content: space-between;
   position: absolute;
+  justify-content: flex-start;
   bottom: 0;
   width: 100%;
   border-radius: 20px 20px 0px 0px;
@@ -199,6 +199,7 @@ const Challenges = styled.div`
   padding: 8px;
   align-items: flex-start;
   gap: 12px;
+  flex: 1;
 `;
 
 const Challenge = styled.div`

@@ -1,8 +1,11 @@
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 
 import styled from "@emotion/styled";
 import LikeIcon from "../icons/Like";
 import FlagIcon from "../icons/Flag";
+import { useLikeMutation } from "../../services/repositories/post";
+import { useParams } from "react-router-dom";
+import LikeFillIcon from "../icons/LikeFill";
 
 interface Props {
   date: string;
@@ -21,6 +24,7 @@ type alignType = "left" | "right";
 export default function Post({
   date,
   isOdd,
+  isLiked,
   username,
   imageUrl,
   likeCount,
@@ -28,6 +32,7 @@ export default function Post({
   challengeCount,
   onClick,
 }: Props) {
+  const { feedId } = useParams();
   const align = useMemo(() => (isOdd ? "left" : "right"), [isOdd]);
   const diff = useMemo(() => {
     const current = new Date();
@@ -37,6 +42,18 @@ export default function Post({
     if (before < 1) return `${Math.floor(diff / 1000 / 60)}분 전`;
     return `${before}시간 전`;
   }, [date]);
+
+  const {
+    mutateAsync: like,
+    data: likeInformation,
+    isSuccess,
+  } = useLikeMutation();
+
+  const handleToggleLike = useCallback(() => {
+    like(Number(feedId))
+      .then(() => {})
+      .catch(() => {});
+  }, [feedId, like]);
 
   return (
     // TODO: link
@@ -49,10 +66,24 @@ export default function Post({
         <Photo src={imageUrl} />
 
         <Icons $align={align}>
-          <IconContainer>
+          <IconContainer onClick={handleToggleLike}>
             {/* TODO: later 아이콘 추출 따로 */}
-            <LikeIcon width={20} height={20} color={"#fff"} />
-            <Text>{likeCount}</Text>
+
+            {(isSuccess ? likeInformation?.is_liked : isLiked) ? (
+              <>
+                <LikeFillIcon width={20} height={20} color={"#fff"} />
+                <Text>
+                  {isSuccess ? likeInformation?.like_count : likeCount}
+                </Text>
+              </>
+            ) : (
+              <>
+                <LikeIcon width={20} height={20} color={"#fff"} />
+                <Text>
+                  {isSuccess ? likeInformation?.like_count : likeCount}
+                </Text>
+              </>
+            )}
           </IconContainer>
           <IconContainer>
             <FlagIcon width={20} height={20} color={"#fff"} />
