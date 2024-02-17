@@ -24,7 +24,7 @@ export class HttpClient {
   constructor() {
     this.instance = axios.create({
       baseURL: "https://seeya-api.wafflestudio.com",
-      withCredentials: false, // TODO: 서버에서 열어주면 true로
+      withCredentials: true,
     });
   }
 
@@ -38,7 +38,7 @@ export class HttpClient {
       headers,
       url: path,
       data: body,
-      withCredentials: false, // TODO: 서버에서 열어주면 true로
+      withCredentials: true,
     });
   }
 
