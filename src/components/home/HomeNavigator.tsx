@@ -10,11 +10,10 @@ import { Link } from "react-router-dom";
 import MeIcon from "../icons/Me";
 import HomeIcon from "../icons/Home";
 import NavigateIcon from "../icons/Navigate";
-import PlusSquaredIcon from "../icons/PlusSquared";
 import MeFillIcon from "../icons/MeFill";
 import HomeFillIcon from "../icons/HomeFill";
 import NavigateFillIcon from "../icons/NavigateFill";
-import PlusSquaredFillIcon from "../icons/PlusSquaredFill";
+import CreateButton from "../create/CreateButton";
 
 export default function HomeNavigator() {
   const currentPath = window?.location?.pathname;
@@ -29,13 +28,7 @@ export default function HomeNavigator() {
         <Tab to="/feed">
           {currentPath === "/feed" ? <NavigateFillIcon /> : <NavigateIcon />}
         </Tab>
-        <Tab to="/upload">
-          {currentPath === "/upload" ? (
-            <PlusSquaredFillIcon />
-          ) : (
-            <PlusSquaredIcon />
-          )}
-        </Tab>
+        <CreateButton />
         <Tab to="/me">
           {currentPath === "/me" ? <MeFillIcon /> : <MeIcon />}
         </Tab>

@@ -35,7 +35,7 @@ export class CreateRepository {
         else if (typeof value === "string") formBody.append(key, value);
         else formBody.append(key, JSON.stringify(value));
       }
-      return await this.cli.post(`api/post/`, body).then((res) => res.data);
+      return await this.cli.post(`api/post/`, formBody).then((res) => res.data);
     } catch (e) {
       return Promise.reject(e);
     }
