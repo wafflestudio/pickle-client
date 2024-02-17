@@ -5,7 +5,7 @@
  *
  */
 
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { PostSchema, postRepo } from "../apis/post";
 
 export const useGetPostListQuery = (
@@ -53,4 +53,12 @@ export const useGetPostQuery = (feedId: number) => {
     queryFn: () => postRepo().getPost(feedId),
   });
   return query;
+};
+
+export const useLikeMutation = () => {
+  const mutation = useMutation({
+    mutationKey: ["like"],
+    mutationFn: (feedId: number) => postRepo().like(feedId),
+  });
+  return mutation;
 };

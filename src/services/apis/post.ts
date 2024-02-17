@@ -106,6 +106,16 @@ export const PostSchema = {
       distance: z.number(),
     }),
   },
+  like: {
+    request: z.number(),
+    response: z.object({
+      like_count: z.number(),
+      challenge_count: z.number(),
+      latitude: z.number(),
+      longitude: z.number(),
+      is_liked: z.boolean(),
+    }),
+  },
 };
 
 export type PostSchema = {
@@ -124,6 +134,10 @@ export type PostSchema = {
   getPost: {
     request: z.infer<(typeof PostSchema)["getPost"]["request"]>;
     response: z.infer<(typeof PostSchema)["getPost"]["response"]>;
+  };
+  like: {
+    request: z.infer<(typeof PostSchema)["like"]["request"]>;
+    response: z.infer<(typeof PostSchema)["like"]["response"]>;
   };
 };
 
@@ -174,6 +188,13 @@ export class PostRepository {
   async getPost(feedId: PostSchema["getPost"]["request"]) {
     return await this.cli
       .get(`/api/post/${feedId}`)
+      .then((res) => res.data)
+      .catch((e) => Promise.reject(e));
+  }
+
+  async like(feedId: PostSchema["like"]["request"]) {
+    return await this.cli
+      .post(`/api/post/${feedId}/like`, {})
       .then((res) => res.data)
       .catch((e) => Promise.reject(e));
   }

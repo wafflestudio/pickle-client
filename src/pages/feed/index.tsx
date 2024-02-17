@@ -29,7 +29,7 @@ export default function Feed() {
     latitude,
     longitude,
     cursor,
-    limit: 3,
+    limit: 200, // TODO: 무한스크롤로 수정
   });
 
   // TODO: 무한 스크롤 디버깅해야함
