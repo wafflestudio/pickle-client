@@ -14,7 +14,7 @@ import axios, {
 
 interface RequestOptions {
   path: string;
-  body?: { [key: string]: unknown };
+  body?: { [key: string]: unknown } | FormData;
   headers?: AxiosRequestHeaders;
 }
 
@@ -51,7 +51,7 @@ export class HttpClient {
 
   public post(
     path: string,
-    body: { [key: string]: unknown },
+    body: { [key: string]: unknown } | FormData,
     headers?: AxiosRequestHeaders,
   ): Promise<AxiosResponse> {
     return this.request("POST", { path, body, headers });
@@ -59,7 +59,7 @@ export class HttpClient {
 
   public put(
     path: string,
-    body: { [key: string]: unknown },
+    body: { [key: string]: unknown } | FormData,
     headers?: AxiosRequestHeaders,
   ): Promise<AxiosResponse> {
     return this.request("PUT", { path, body, headers });
@@ -67,7 +67,7 @@ export class HttpClient {
 
   public patch(
     path: string,
-    body: { [key: string]: unknown },
+    body: { [key: string]: unknown } | FormData,
     headers?: AxiosRequestHeaders,
   ): Promise<AxiosResponse> {
     return this.request("PATCH", { path, body, headers });
@@ -75,7 +75,7 @@ export class HttpClient {
 
   public delete(
     path: string,
-    body?: { [key: string]: unknown },
+    body?: { [key: string]: unknown } | FormData,
     headers?: AxiosRequestHeaders,
   ): Promise<AxiosResponse> {
     return this.request("DELETE", { path, body, headers });

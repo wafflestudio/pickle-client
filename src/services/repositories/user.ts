@@ -29,5 +29,15 @@ export const useUserQuery = () => {
     onSuccess: () => query.refetch(),
   });
 
-  return { me: query, login, signup };
+  const checkEmail = useMutation({
+    mutationFn: (body: UserSchema["checkEmail"]["request"]) =>
+      userRepo().checkEmail(body),
+  });
+
+  const checkUsername = useMutation({
+    mutationFn: (body: UserSchema["checkUsername"]["request"]) =>
+      userRepo().checkUsername(body),
+  });
+
+  return { me: query, login, signup, checkEmail, checkUsername };
 };
