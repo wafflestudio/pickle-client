@@ -4,7 +4,7 @@
  * createBrowserRouter를 이용하여 라우터를 객체와 배열로 관리하면, 관심에 따른 라우터 파일의 분리가 쉬워져 이 방법을 선호합니다.
  */
 
-import { createBrowserRouter } from "react-router-dom";
+import { Outlet, createBrowserRouter } from "react-router-dom";
 import RootLayout from "../layouts/root/layout";
 import HomeLayout from "../layouts/home";
 import Wip from "../pages/common/Wip";
@@ -17,6 +17,9 @@ import AuthLayout from "../layouts/auth/index";
 import Feed from "../pages/feed";
 import RegisterLayout from "../layouts/register";
 import RegisterProfile from "../pages/register/Profile";
+import Create from "../pages/create";
+import { Challenge } from "../pages/challenge";
+import ChallengeLayout from "../layouts/challenge/index";
 
 const router = createBrowserRouter([
   {
@@ -44,8 +47,33 @@ const router = createBrowserRouter([
             ],
           },
           {
-            path: "challenge/:challengeId",
-            element: <div>ChallengeLayout</div>,
+            path: "challenge",
+            element: <Outlet />,
+            children: [
+              {
+                path: "create",
+                element: <Create />,
+              },
+              {
+                path: ":challengeId",
+                element: <ChallengeLayout />,
+                children: [
+                  { path: "", element: <Challenge /> },
+                  {
+                    path: "try",
+                    element: <Wip name="챌린지 중" color="#4b52b1" />,
+                  },
+                  {
+                    path: "result",
+                    element: <Wip name="챌린지 결과" color="#4b52b1" />,
+                  },
+                  {
+                    path: "secret",
+                    element: <Wip name="비밀 메시지" color="#4b52b1" />,
+                  },
+                ],
+              },
+            ],
           },
         ],
       },
