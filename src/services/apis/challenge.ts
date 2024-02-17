@@ -21,6 +21,16 @@ export const ChallengeApiSchema = {
     request: CoordsSchema,
     response: z.array(PostSchema),
   },
+  postChallenge: {
+    request: z.object({
+      post_id: z.number(),
+    }),
+  },
+  postSubmit: {
+    request: z.object({
+      image: z.instanceof(Blob),
+    }),
+  },
 };
 
 export type ChallengeApiSchema = {
@@ -39,6 +49,12 @@ export type ChallengeApiSchema = {
     response: z.infer<
       (typeof ChallengeApiSchema)["getOtherChallenges"]["response"]
     >;
+  };
+  postChallenge: {
+    request: z.infer<(typeof ChallengeApiSchema)["postChallenge"]["request"]>;
+  };
+  postSubmit: {
+    request: z.infer<(typeof ChallengeApiSchema)["postSubmit"]["request"]>;
   };
 };
 
@@ -74,11 +90,37 @@ export class ChallengeRepository {
   }
 
   // TODO: unknown DTO
-  async postChallenge(challengeId: number, body: { [key: string]: unknown }) {
-    return this.cli
-      .post(`/api/challenge/${challengeId}`, body)
-      .then((res) => res?.data)
-      .catch((err) => err);
+  async postChallenge(body: ChallengeSchema["postChallenge"]["request"]) {
+    try {
+      const validBody = ChallengeSchema.postChallenge.request.parse(body);
+      return await this.cli
+        .post(`/api/challenge/`, validBody)
+        .then((res) => res.data);
+    } catch (e) {
+      return Promise.reject(e);
+    }
+  }
+
+  async postSubmit(
+    challengeId: number,
+    body: ChallengeSchema["postSubmit"]["request"],
+  ) {
+    try {
+      const validBody = ChallengeSchema.postSubmit.request.parse(body);
+      const formData = new FormData();
+      formData.append("image", validBody.image);
+      return await this.cli
+        .post(`/api/challenge/${challengeId}/submit`, formData)
+        .then((res) => res.data);
+    } catch (e) {
+      return Promise.reject(e);
+    }
+  }
+
+  async getEvaluation(challengeId: number) {
+    return await this.cli
+      .get(`/api/challenge/${challengeId}/evaluate`)
+      .then((res) => res.data);
   }
 }
 

@@ -5,6 +5,7 @@ export const CreateSchema = {
   post: {
     request: z.object({
       text: z.string().min(1).max(50),
+      secret_text: z.string().min(1).max(50),
       latitude: z.number(),
       longitude: z.number(),
       image: z.instanceof(Blob),

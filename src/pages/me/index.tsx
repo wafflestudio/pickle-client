@@ -80,7 +80,7 @@ export default function Me() {
               return (
                 <ImageContainer
                   key={image}
-                  to={`/${id}`} // TODO: 라우트
+                  to={`/feed/${id}`}
                   $align={
                     index % 2 === 0
                       ? ("left" as AlignType)

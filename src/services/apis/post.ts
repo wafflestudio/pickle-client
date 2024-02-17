@@ -80,6 +80,24 @@ export const PostApiSchema = {
       previous: z.string(),
     }),
   },
+  getPost: {
+    request: z.number(),
+    response: z.object({
+      id: z.number(),
+      text: z.string(),
+      image: z.string(),
+      author_id: z.number(),
+      author_name: z.string(),
+      created_at: z.string(),
+      updated_at: z.string(),
+      like_count: z.number(),
+      challenge_count: z.number(),
+      latitude: z.number(),
+      longitude: z.number(),
+      is_liked: z.boolean(),
+      distance: z.number(),
+    }),
+  },
 };
 
 export type PostApiSchema = {
@@ -94,6 +112,10 @@ export type PostApiSchema = {
   getMyLikedPostList: {
     request: z.infer<(typeof PostApiSchema)["getMyLikedPostList"]["request"]>;
     response: z.infer<(typeof PostApiSchema)["getMyLikedPostList"]["response"]>;
+  };
+  getPost: {
+    request: z.infer<(typeof PostSchema)["getPost"]["request"]>;
+    response: z.infer<(typeof PostSchema)["getPost"]["response"]>;
   };
 };
 
@@ -143,6 +165,13 @@ export class PostRepository {
 
     return await this.cli
       .get(`/api/post/liked_list?${queryParams.toString()}`)
+      .then((res) => res.data)
+      .catch((e) => Promise.reject(e));
+  }
+
+  async getPost(feedId: PostSchema["getPost"]["request"]) {
+    return await this.cli
+      .get(`/api/post/${feedId}`)
       .then((res) => res.data)
       .catch((e) => Promise.reject(e));
   }

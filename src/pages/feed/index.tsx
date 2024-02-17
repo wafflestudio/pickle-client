@@ -5,6 +5,7 @@
  */
 
 import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
 import Post from "../../components/feed/Post";
 import { Page } from "../../components/common/Page";
@@ -13,6 +14,7 @@ import { hideScroll } from "../../utils/emotion/scroll";
 import { useGetPostListQuery } from "../../services/repositories/post";
 
 export default function Feed() {
+  const navigate = useNavigate();
   const observer = useRef<IntersectionObserver | null>(null);
   const [cursor, setCursor] = useState("");
   const [latitude, setLatitude] = useState(37.50324);
@@ -110,7 +112,7 @@ export default function Feed() {
                   (
                     {
                       id,
-                      updated_at: date,
+                      created_at: date,
                       image: imageUrl,
                       text: description,
                       author_name: username,
@@ -129,7 +131,12 @@ export default function Feed() {
                       challengeCount,
                     };
                     return (
-                      <Post {...post} key={imageUrl} isOdd={index % 2 !== 0} />
+                      <Post
+                        {...post}
+                        key={imageUrl}
+                        isOdd={index % 2 !== 0}
+                        onClick={() => navigate(`/feed/${id}`)}
+                      />
                     );
                   },
                 )}
