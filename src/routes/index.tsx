@@ -21,6 +21,7 @@ import Me from "../pages/me";
 import Create from "../pages/create";
 import { Challenge } from "../pages/challenge";
 import ChallengeLayout from "../layouts/challenge/index";
+import Detail from "../pages/detail";
 
 const router = createBrowserRouter([
   {
@@ -44,6 +45,10 @@ const router = createBrowserRouter([
               {
                 path: "me",
                 element: <Me />,
+              },
+              {
+                path: "/feed/:feedId",
+                element: <Detail />,
               },
             ],
           },

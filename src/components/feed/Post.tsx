@@ -3,10 +3,8 @@ import { useMemo } from "react";
 import styled from "@emotion/styled";
 import LikeIcon from "../icons/Like";
 import FlagIcon from "../icons/Flag";
-import { Link } from "react-router-dom";
 
 interface Props {
-  id: number;
   date: string;
   isOdd?: boolean;
   username: string;
@@ -15,12 +13,12 @@ interface Props {
   isLiked?: boolean;
   description?: string;
   challengeCount?: number;
+  onClick?: () => void;
 }
 
 type alignType = "left" | "right";
 
 export default function Post({
-  id,
   date,
   isOdd,
   username,
@@ -28,12 +26,21 @@ export default function Post({
   likeCount,
   description,
   challengeCount,
+  onClick,
 }: Props) {
   const align = useMemo(() => (isOdd ? "left" : "right"), [isOdd]);
+  const diff = useMemo(() => {
+    const current = new Date();
+    const updated = new Date(date);
+    const diff = current.getTime() - updated.getTime();
+    const before = Math.floor(diff / 1000 / 60 / 60);
+    if (before < 1) return `${Math.floor(diff / 1000 / 60)}분 전`;
+    return `${before}시간 전`;
+  }, [date]);
 
   return (
     // TODO: link
-    <Container $align={align} to={`/${id}`}>
+    <Container $align={align} onClick={onClick}>
       <PhotoSection $align={align}>
         <Information $align={align}>
           <DateText $align={align}>{date}</DateText>
@@ -55,12 +62,14 @@ export default function Post({
       </PhotoSection>
 
       <Desc $align={align}>{description}</Desc>
+      <Diff $align={align}>{diff}</Diff>
     </Container>
   );
 }
 
-const Container = styled(Link)<{ $align?: alignType }>`
+const Container = styled.div<{ $align?: alignType }>`
   display: flex;
+  position: relative;
   flex-direction: column;
   justify-content: flex-start;
   gap: 10px;
@@ -73,6 +82,7 @@ const Container = styled(Link)<{ $align?: alignType }>`
   box-shadow: 0px 0px 12px 0px rgba(29, 29, 29, 0.1);
   text-decoration: none;
   transition: all 0.3s ease;
+  cursor: pointer;
 
   &:hover {
     transform: translateY(-4px);
@@ -150,6 +160,8 @@ const Icons = styled.div<{ $align?: alignType }>`
   position: absolute;
   ${({ $align }) => ($align === "right" ? "right: 16px" : "left: 16px")};
   bottom: 12px;
+  background: transparent;
+  mix-blend-mode: exclusion;
 `;
 
 const IconContainer = styled.div`
@@ -166,4 +178,16 @@ const Text = styled.span`
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+`;
+
+const Diff = styled.span<{ $align?: alignType }>`
+  color: #878787;
+  font-family: "Spoqa Han Sans Neo";
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  position: absolute;
+  bottom: 12px;
+  ${({ $align }) => ($align === "right" ? "left: 16px" : "right: 16px")};
 `;
