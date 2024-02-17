@@ -135,7 +135,7 @@ const Bubble = styled.div`
 
   animation: ${Reveal} 0.9s ease;
   animation-fill-mode: backwards;
-  animation-delay: 2.3s;
+  animation-delay: 2s;
 `;
 
 const DistanceWrapper = styled.div`

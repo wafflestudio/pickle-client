@@ -25,6 +25,7 @@ export function ChallengeResult() {
             height="100%"
           />
         </ImageWrapper>
+        <Bubble>눌러서 비밀 메시지 보기</Bubble>
       </ImageContainer>
       <ResultWrapper>
         <ResultSub>사진 속 공간과</ResultSub>
@@ -76,8 +77,10 @@ const TitleMain = styled.div`
 `;
 
 const ImageContainer = styled.div`
+  position: relative;
   width: 100%;
   display: flex;
+  justify-content: center;
   gap: 14px;
   margin-bottom: 40px;
 `;
@@ -91,6 +94,23 @@ const ImageWrapper = styled.div`
 const Image = styled.img`
   object-fit: cover;
   object-position: center;
+`;
+const Bubble = styled.div`
+  position: absolute;
+  top: -40px;
+  width: 267px;
+  height: 72px;
+  border-radius: 8px;
+  background: url("/backgrounds/bubble_bg2.png");
+  background-size: cover;
+  background-position: center;
+  padding-top: 18px;
+
+  color: #1e1e1e;
+  text-align: center;
+  font-family: "Spoqa Han Sans Neo";
+  font-size: 14px;
+  font-weight: 400;
 `;
 
 const ResultWrapper = styled.div`
