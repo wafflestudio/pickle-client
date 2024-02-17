@@ -35,6 +35,9 @@ const globalStyle = css`
   }
   :root {
     --nav-height: 56px;
+    --header-height: 104px;
+    --nav-bottom-margin: 35px;
+    --max-width: 400px;
     /* --primary-color: #; */
     /* --secondary-color: #; */
     /* --background-color: #; */

@@ -7,6 +7,7 @@
 
 import { useMemo, useRef, useState } from "react";
 import { useLocation, useOutlet } from "react-router-dom";
+import Header from "../../components/common/Header";
 import HomeNavigator from "../../components/home/HomeNavigator";
 import SlideContainer from "../../components/common/SlideContainer";
 
@@ -82,6 +83,7 @@ export default function HomeLayout() {
 
   return (
     <>
+      <Header />
       <SlideContainer
         slideDirection={
           current.id < cache.id

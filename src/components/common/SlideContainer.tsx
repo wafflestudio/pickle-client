@@ -32,6 +32,7 @@ const Container = styled.div<{
 }>`
   position: relative;
   display: flex;
+  animation-fill-mode: forwards;
 
   ${(props) => {
     if (props.$slideDirection === "LEFT")
