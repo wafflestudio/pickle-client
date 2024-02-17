@@ -23,7 +23,7 @@ export class HttpClient {
 
   constructor() {
     this.instance = axios.create({
-      baseURL: "",
+      baseURL: "https://seeya-api.wafflestudio.com",
       withCredentials: true,
     });
   }
