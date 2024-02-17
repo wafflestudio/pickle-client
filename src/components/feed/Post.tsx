@@ -85,7 +85,7 @@ const PhotoSection = styled.section<{ $align?: alignType }>`
   flex-direction: ${({ $align }) =>
     $align === "left" ? "row-reverse" : "row"};
   justify-content: flex-end;
-  width: auto;
+  width: 382px;
   height: 267px;
   position: relative;
 `;
@@ -94,7 +94,7 @@ const Photo = styled.img`
   width: 88%;
   max-width: 356px;
   height: 267px;
-  flex-shrink: 0;
+  flex-shrink: 1;
   background: black;
   object-fit: cover;
 `;
