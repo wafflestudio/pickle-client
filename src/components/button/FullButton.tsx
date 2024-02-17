@@ -11,6 +11,7 @@ type FullProps = PropsWithChildren &
 export function FullButton({
   children,
   theme = "default",
+  disabled,
   ...props
 }: FullProps) {
   const themeCss = useMemo(() => {
@@ -42,7 +43,7 @@ export function FullButton({
   }, [theme]);
 
   return (
-    <Button css={themeCss} {...props}>
+    <Button css={themeCss} disabled={disabled} {...props}>
       {children}
     </Button>
   );

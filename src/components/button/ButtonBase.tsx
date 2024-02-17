@@ -16,4 +16,8 @@ export const ButtonBase = styled.button`
   &:active {
     opacity: 0.6;
   }
+  &:disabled {
+    opacity: 0.4;
+    pointer-events: none;
+  }
 `;

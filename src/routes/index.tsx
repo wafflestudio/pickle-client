@@ -12,6 +12,7 @@ import Home from "../pages/home";
 import GuestLayout from "../layouts/guest";
 import Login from "../pages/login";
 import Hello from "../pages/hello";
+import Register from "../pages/register/index";
 
 const router = createBrowserRouter([
   {
@@ -39,7 +40,7 @@ const router = createBrowserRouter([
           { path: "login", element: <Login /> },
           {
             path: "register",
-            element: <Wip name="회원가입" color="white" />,
+            element: <Register />,
           },
         ],
       },
