@@ -2,7 +2,7 @@ import { SVGAttributes } from "react";
 
 type Props = SVGAttributes<SVGElement>;
 
-export default function Plus(props: Props) {
+export default function PlusIcon(props: Props) {
   return (
     <svg
       width="12"

@@ -1,10 +1,8 @@
-import { HTMLAttributes } from "react";
+import { SVGAttributes } from "react";
 
-interface Props extends HTMLAttributes<SVGElement> {
-  color?: string;
-}
+type Props = SVGAttributes<SVGElement>;
 
-export default function UserFillIcon(props: Props) {
+export default function MeFillIcon(props: Props) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

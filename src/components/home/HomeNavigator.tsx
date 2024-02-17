@@ -7,14 +7,14 @@
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
 
+import MeIcon from "../icons/Me";
 import HomeIcon from "../icons/Home";
-import PlusIcon from "../icons/Plus";
-import UserIcon from "../icons/User";
 import NavigateIcon from "../icons/Navigate";
+import PlusSquaredIcon from "../icons/PlusSquared";
+import MeFillIcon from "../icons/MeFill";
 import HomeFillIcon from "../icons/HomeFill";
-import PlusFillIcon from "../icons/PlusFill";
-import UserFillIcon from "../icons/UserFill";
 import NavigateFillIcon from "../icons/NavigateFill";
+import PlusSquaredFillIcon from "../icons/PlusSquaredFill";
 
 export default function HomeNavigator() {
   const currentPath = window?.location?.pathname;
@@ -27,11 +27,13 @@ export default function HomeNavigator() {
         {currentPath === "/feed" ? <NavigateFillIcon /> : <NavigateIcon />}
       </Tab>
       <Tab to="/upload">
-        {currentPath === "/upload" ? <PlusFillIcon /> : <PlusIcon />}
+        {currentPath === "/upload" ? (
+          <PlusSquaredFillIcon />
+        ) : (
+          <PlusSquaredIcon />
+        )}
       </Tab>
-      <Tab to="/me">
-        {currentPath === "/me" ? <UserFillIcon /> : <UserIcon />}
-      </Tab>
+      <Tab to="/me">{currentPath === "/me" ? <MeFillIcon /> : <MeIcon />}</Tab>
     </Nav>
   );
 }

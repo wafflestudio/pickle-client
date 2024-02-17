@@ -1,8 +1,6 @@
-import { HTMLAttributes } from "react";
+import { SVGAttributes } from "react";
 
-interface Props extends HTMLAttributes<SVGElement> {
-  color?: string;
-}
+type Props = SVGAttributes<SVGElement>;
 
 export default function NavigateFillIcon(props: Props) {
   return (
