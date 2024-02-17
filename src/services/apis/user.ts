@@ -20,7 +20,6 @@ export const UserSchema = {
   signup: {
     request: z.object({
       email: z.string().email(),
-      username: z.string(),
       password: z.string(),
     }),
     response: z.object({
@@ -82,10 +81,15 @@ export class UserRepository {
   }
 
   async postLogin(body: UserSchema["login"]["request"]) {
-    return this.cli
-      .post(`/api/user/login`, body)
-      .then((res) => res?.data)
-      .catch((err) => err);
+    try {
+      const validBody = UserSchema.login.request.parse(body);
+      return await this.cli
+        .post(`/api/user/login`, validBody)
+        .then((res) => res.data)
+        .then(UserSchema.login.response.parse);
+    } catch (e) {
+      return Promise.reject(e);
+    }
   }
 }
 

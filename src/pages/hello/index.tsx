@@ -1,9 +1,9 @@
 import styled from "@emotion/styled";
-import Button from "../../components/button/Button";
 import { Page } from "../../components/common/Page";
 import { useNavigate } from "react-router-dom";
+import { FullButton } from "../../components/button/FullButton";
 
-export default function Splash() {
+export default function Hello() {
   const navigate = useNavigate();
   return (
     <Main>
@@ -18,10 +18,12 @@ export default function Splash() {
       </Top>
       <Bottom>
         <Buttons>
-          <Button.Full onClick={() => navigate("../register")}>
+          <FullButton theme="white" onClick={() => navigate("../register")}>
             회원가입
-          </Button.Full>
-          <Button.Full onClick={() => navigate("../login")}>로그인</Button.Full>
+          </FullButton>
+          <FullButton theme="stroked" onClick={() => navigate("../login")}>
+            로그인
+          </FullButton>
         </Buttons>
         <Credit>©wackathon.pickle</Credit>
       </Bottom>
@@ -35,6 +37,7 @@ const Main = styled(Page)`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  background-color: #1e1e1e;
 `;
 
 const Top = styled.div`
@@ -46,6 +49,7 @@ const Top = styled.div`
 
 const Logo = styled.h1`
   width: 100%;
+  color: white;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -53,6 +57,7 @@ const Logo = styled.h1`
 `;
 
 const Description = styled.div`
+  color: white;
   font-size: 14px;
   line-height: 1.5em;
   text-align: center;
