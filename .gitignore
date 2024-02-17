@@ -469,3 +469,4 @@ $RECYCLE.BIN/
 
 # husky
 .husky
+public/local_svg/**.svg
