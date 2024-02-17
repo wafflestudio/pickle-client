@@ -124,12 +124,12 @@ export type PostApiSchema = {
     response: z.infer<(typeof PostApiSchema)["getMyLikedPostList"]["response"]>;
   };
   getPost: {
-    request: z.infer<(typeof PostSchema)["getPost"]["request"]>;
-    response: z.infer<(typeof PostSchema)["getPost"]["response"]>;
+    request: z.infer<(typeof PostApiSchema)["getPost"]["request"]>;
+    response: z.infer<(typeof PostApiSchema)["getPost"]["response"]>;
   };
   like: {
-    request: z.infer<(typeof PostSchema)["like"]["request"]>;
-    response: z.infer<(typeof PostSchema)["like"]["response"]>;
+    request: z.infer<(typeof PostApiSchema)["like"]["request"]>;
+    response: z.infer<(typeof PostApiSchema)["like"]["response"]>;
   };
 };
 
@@ -183,14 +183,14 @@ export class PostRepository {
       .catch((e) => Promise.reject(e));
   }
 
-  async getPost(feedId: PostSchema["getPost"]["request"]) {
+  async getPost(feedId: PostApiSchema["getPost"]["request"]) {
     return await this.cli
       .get(`/api/post/${feedId}`)
       .then((res) => res.data)
       .catch((e) => Promise.reject(e));
   }
 
-  async like(feedId: PostSchema["like"]["request"]) {
+  async like(feedId: PostApiSchema["like"]["request"]) {
     return await this.cli
       .post(`/api/post/${feedId}/like`, {})
       .then((res) => res.data)
