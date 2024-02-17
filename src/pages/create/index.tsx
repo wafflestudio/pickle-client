@@ -13,6 +13,7 @@ export default function Create() {
   const { post } = useCreateQuery();
   const [input, setInput] = useState<CreateSchema["post"]["request"]>({
     text: "",
+    secret_text: "",
     latitude: 0,
     longitude: 0,
     image: new Blob(),
@@ -64,10 +65,17 @@ export default function Create() {
           있는 특별한 경험이나 팁을 작성해보세요!
         </DescriptionSub>
       </Description>
-      <TextArea />
+      <TextArea
+        value={input.secret_text}
+        onChange={(e) => set({ secret_text: e.target.value })}
+      />
       <FullButton
         theme="black"
-        disabled={input.text.length === 0 || input.image.size === 0}
+        disabled={
+          input.text.length === 0 ||
+          input.secret_text.length === 0 ||
+          input.image.size === 0
+        }
         onClick={() =>
           post
             .mutateAsync({ ...input, longitude: 127.03996, latitude: 37.50324 })

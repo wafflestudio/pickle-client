@@ -5,13 +5,26 @@
  *
  */
 
-import { useQuery } from "@tanstack/react-query";
-import { challengeRepo } from "../apis/challenge";
+import { useMutation } from "@tanstack/react-query";
+import { ChallengeSchema, challengeRepo } from "../apis/challenge";
 
-export const useChallengeQuery = (challengeId: number) => {
-  const query = useQuery({
-    queryKey: ["challenge", challengeId],
-    queryFn: () => challengeRepo().getChallenge(challengeId),
+export const useChallengeQuery = () => {
+  const start = useMutation({
+    mutationFn: (body: ChallengeSchema["postChallenge"]["request"]) =>
+      challengeRepo().postChallenge(body),
   });
-  return query;
+
+  const submit = useMutation({
+    mutationFn: (params: {
+      challengeId: number;
+      body: ChallengeSchema["postSubmit"]["request"];
+    }) => challengeRepo().postSubmit(params.challengeId, params.body),
+  });
+
+  const getEvaluation = useMutation({
+    mutationFn: (challengeId: number) =>
+      challengeRepo().getEvaluation(challengeId),
+  });
+
+  return { start, submit, getEvaluation, challengeRepo };
 };

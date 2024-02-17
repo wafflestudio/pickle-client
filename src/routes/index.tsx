@@ -22,6 +22,8 @@ import Create from "../pages/create";
 import { Challenge } from "../pages/challenge";
 import ChallengeLayout from "../layouts/challenge/index";
 import Detail from "../pages/detail";
+import { ChallengeTry } from "../pages/challenge/try";
+import { ChallengeResult } from "../pages/challenge/result";
 
 const router = createBrowserRouter([
   {
@@ -67,11 +69,11 @@ const router = createBrowserRouter([
                   { path: "", element: <Challenge /> },
                   {
                     path: "try",
-                    element: <Wip name="챌린지 중" color="#4b52b1" />,
+                    element: <ChallengeTry />,
                   },
                   {
                     path: "result",
-                    element: <Wip name="챌린지 결과" color="#4b52b1" />,
+                    element: <ChallengeResult />,
                   },
                   {
                     path: "secret",
