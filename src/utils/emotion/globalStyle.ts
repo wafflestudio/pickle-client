@@ -29,7 +29,7 @@ const globalStyle = css`
   }
   * {
     box-sizing: border-box;
-    font-family: "Spoqa Han Sans Neo", serif;
+    font-family: "Spoqa Han Sans Neo", sans-serif;
     font-style: normal;
     line-height: normal;
   }
