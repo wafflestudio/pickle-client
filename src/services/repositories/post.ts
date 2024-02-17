@@ -20,3 +20,16 @@ export const useGetPostListQuery = (
   });
   return query;
 };
+
+export const useGetMyPostListQuery = (
+  body: PostSchema["getMyPostList"]["request"],
+) => {
+  const query = useQuery({
+    queryKey: ["myPostList"],
+    queryFn: () => postRepo().getMyPostList({ ...body }),
+    retry: 1,
+    retryDelay: 1000,
+    staleTime: Infinity,
+  });
+  return query;
+};
