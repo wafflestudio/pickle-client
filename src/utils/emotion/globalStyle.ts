@@ -13,6 +13,8 @@ import { css } from "@emotion/react";
 import emotionNormalize from "emotion-normalize";
 
 const globalStyle = css`
+  @import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css);
+
   ${emotionNormalize}
   html,
     body {
@@ -27,6 +29,9 @@ const globalStyle = css`
   }
   * {
     box-sizing: border-box;
+    font-family: "Spoqa Han Sans Neo", serif;
+    font-style: normal;
+    line-height: normal;
   }
   :root {
     --nav-height: 56px;
