@@ -56,4 +56,10 @@ const Button = styled(ButtonBase)`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  color: black;
+  text-align: center;
+  font-family: "Spoqa Han Sans Neo";
+  font-size: 16px;
+  font-weight: 400;
 `;

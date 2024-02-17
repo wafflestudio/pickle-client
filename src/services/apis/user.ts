@@ -17,10 +17,18 @@ export const UserSchema = {
       username: z.string(),
     }),
   },
+  checkEmail: {
+    request: z.string().email(),
+  },
+  checkUsername: {
+    request: z.string().min(2).max(12),
+  },
   signup: {
     request: z.object({
       email: z.string().email(),
       password: z.string(),
+      username: z.string().min(2).max(12),
+      image: z.instanceof(Blob).optional(),
     }),
     response: z.object({
       id: z.number(),
@@ -45,6 +53,12 @@ export type UserSchema = {
   me: {
     response: z.infer<(typeof UserSchema)["me"]["response"]>;
   };
+  checkEmail: {
+    request: z.infer<(typeof UserSchema)["checkEmail"]["request"]>;
+  };
+  checkUsername: {
+    request: z.infer<(typeof UserSchema)["checkUsername"]["request"]>;
+  };
   signup: {
     request: z.infer<(typeof UserSchema)["signup"]["request"]>;
     response: z.infer<(typeof UserSchema)["signup"]["response"]>;
@@ -68,11 +82,38 @@ export class UserRepository {
       .then(UserSchema.me.response.parse);
   }
 
+  async checkEmail(body: UserSchema["checkEmail"]["request"]) {
+    try {
+      const validQuery = UserSchema.checkEmail.request.parse(body);
+      return await this.cli
+        .get(`/api/user/check_email?email=${validQuery}`)
+        .then((res) => res.data);
+    } catch (e) {
+      return Promise.reject(e);
+    }
+  }
+
+  async checkUsername(body: UserSchema["checkUsername"]["request"]) {
+    try {
+      const validQuery = UserSchema.checkUsername.request.parse(body);
+      return await this.cli
+        .get(`/api/user/check_username?username=${validQuery}`)
+        .then((res) => res.data);
+    } catch (e) {
+      return Promise.reject(e);
+    }
+  }
+
   async postSignup(body: UserSchema["signup"]["request"]) {
     try {
       const validBody = UserSchema.signup.request.parse(body);
+      const formBody = new FormData();
+      for (const key in validBody) {
+        const value = validBody[key as keyof typeof validBody];
+        if (value) formBody.append(key, value);
+      }
       return await this.cli
-        .post(`/api/user/signup`, validBody)
+        .post(`/api/user/signup`, formBody)
         .then((res) => res.data)
         .then(UserSchema.signup.response.parse);
     } catch (e) {

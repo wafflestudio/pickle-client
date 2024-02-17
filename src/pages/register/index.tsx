@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext } from "react";
 
 import styled from "@emotion/styled";
 import { Page } from "../../components/common/Page";
@@ -6,10 +6,11 @@ import { FullButton } from "../../components/button/FullButton";
 import FullInput from "../../components/input/FullInput";
 import { useUserQuery } from "../../services/repositories/user";
 import { useNavigate } from "react-router-dom";
+import { RegisterContext } from "../../layouts/register/context";
 
 export default function Register() {
-  const { signup } = useUserQuery();
-  const [input, setInput] = useState({ email: "", password: "" });
+  const { checkEmail } = useUserQuery();
+  const { email, password, set } = useContext(RegisterContext);
   const navigate = useNavigate();
 
   return (
@@ -18,32 +19,38 @@ export default function Register() {
       <Form
         onSubmit={(e) => {
           e.preventDefault();
-          if (!input.email || !input.password) return;
-          signup.mutateAsync(input).then(() => navigate("/"));
+          if (email === "" || password === "") return;
+          checkEmail.mutateAsync(email).then(() => {
+            navigate("profile");
+          });
         }}
       >
         <Inputs>
           <FullInput
             type="text"
-            value={input.email}
-            onChange={(e) => setInput({ ...input, email: e.target.value })}
+            value={email}
+            onChange={(e) => set({ email: e.target.value })}
             placeholder="이메일"
             icon="user"
           />
           <FullInput
             type="password"
-            value={input.password}
-            onChange={(e) => setInput({ ...input, password: e.target.value })}
+            value={password}
+            onChange={(e) => set({ password: e.target.value })}
             placeholder="비밀번호"
             icon="key"
           />
         </Inputs>
         <ErrorMessage>
-          {signup.isError && JSON.stringify(signup.error)}
+          {checkEmail.isError && JSON.stringify(checkEmail.error)}
           {/* // TODO: 에러 개선 */}
         </ErrorMessage>
         <Buttons>
-          <FullButton theme="black" type="submit">
+          <FullButton
+            theme="black"
+            type="submit"
+            disabled={email === "" || password === ""}
+          >
             회원가입
           </FullButton>
         </Buttons>
@@ -55,6 +62,9 @@ export default function Register() {
 const Main = styled(Page)`
   padding: 0 16px;
   padding-top: 20vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const Title = styled.h1`
@@ -64,8 +74,12 @@ const Title = styled.h1`
   text-align: center;
   margin-bottom: 47px;
 `;
-const Form = styled.form``;
+
+const Form = styled.form`
+  width: 100%;
+`;
 const Inputs = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -89,6 +103,7 @@ const ErrorMessage = styled.div`
   -webkit-line-clamp: 1;
 `;
 const Buttons = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 20px;

@@ -12,7 +12,8 @@ export const useUserQuery = () => {
   const query = useQuery({
     queryKey: ["user", "me"],
     queryFn: () => userRepo().getMe(),
-    retry: 0,
+    retry: 1,
+    retryDelay: 1000,
     staleTime: Infinity,
   });
 
@@ -28,5 +29,15 @@ export const useUserQuery = () => {
     onSuccess: () => query.refetch(),
   });
 
-  return { me: query, login, signup };
+  const checkEmail = useMutation({
+    mutationFn: (body: UserSchema["checkEmail"]["request"]) =>
+      userRepo().checkEmail(body),
+  });
+
+  const checkUsername = useMutation({
+    mutationFn: (body: UserSchema["checkUsername"]["request"]) =>
+      userRepo().checkUsername(body),
+  });
+
+  return { me: query, login, signup, checkEmail, checkUsername };
 };

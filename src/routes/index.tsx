@@ -15,6 +15,8 @@ import Hello from "../pages/hello";
 import Register from "../pages/register/index";
 import AuthLayout from "../layouts/auth/index";
 import Feed from "../pages/feed";
+import RegisterLayout from "../layouts/register";
+import RegisterProfile from "../pages/register/Profile";
 
 const router = createBrowserRouter([
   {
@@ -56,7 +58,17 @@ const router = createBrowserRouter([
           { path: "login", element: <Login /> },
           {
             path: "register",
-            element: <Register />,
+            element: <RegisterLayout />,
+            children: [
+              {
+                path: "",
+                element: <Register />,
+              },
+              {
+                path: "profile",
+                element: <RegisterProfile />,
+              },
+            ],
           },
         ],
       },
