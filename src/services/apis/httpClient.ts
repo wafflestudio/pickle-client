@@ -42,6 +42,15 @@ export class HttpClient {
     });
   }
 
+  private stream(path: string): Promise<AxiosResponse> {
+    return this.instance.request({
+      method: "GET",
+      url: path,
+      responseType: "stream",
+      withCredentials: true,
+    });
+  }
+
   public get(
     path: string,
     headers?: AxiosRequestHeaders,
@@ -79,6 +88,10 @@ export class HttpClient {
     headers?: AxiosRequestHeaders,
   ): Promise<AxiosResponse> {
     return this.request("DELETE", { path, body, headers });
+  }
+
+  public getStream(path: string): Promise<AxiosResponse> {
+    return this.stream(path);
   }
 }
 

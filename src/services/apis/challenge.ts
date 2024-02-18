@@ -21,6 +21,25 @@ export const ChallengeApiSchema = {
     request: CoordsSchema,
     response: z.array(PostSchema),
   },
+  get: {
+    response: z.object({
+      id: z.number(),
+      coordinate: z.object({
+        latitude: z.number(),
+        longitude: z.number(),
+      }),
+      start_time: z.string().optional(),
+      image: z.string().nullable(),
+      similarity: z.number().nullable(),
+      result: z.string().nullable(),
+      post: z.object({
+        id: z.number(),
+        text: z.string(),
+        secret_text: z.string(),
+        image: z.string(),
+      }),
+    }),
+  },
   postChallenge: {
     request: z.object({
       post_id: z.number(),
@@ -89,7 +108,13 @@ export class ChallengeRepository {
       .catch((err) => err);
   }
 
-  // TODO: unknown DTO
+  async get(challengeId: number) {
+    return await this.cli
+      .get(`/api/challenge/${challengeId}`)
+      .then((res) => res.data)
+      .then(ChallengeApiSchema.get.response.parse);
+  }
+
   async postChallenge(body: ChallengeApiSchema["postChallenge"]["request"]) {
     try {
       const validBody = ChallengeApiSchema.postChallenge.request.parse(body);
@@ -118,9 +143,13 @@ export class ChallengeRepository {
   }
 
   async getEvaluation(challengeId: number) {
-    return await this.cli
-      .get(`/api/challenge/${challengeId}/evaluate`)
-      .then((res) => res.data);
+    return await fetch(
+      `https://seeya-api.wafflestudio.com/api/challenge/${challengeId}/evaluate`,
+      {
+        credentials: "include",
+        cache: "no-cache",
+      },
+    ).then((res) => res.body);
   }
 }
 

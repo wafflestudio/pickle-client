@@ -1,34 +1,18 @@
 import styled from "@emotion/styled";
 import { Page } from "../../components/common/Page";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useChallengeQuery } from "../../services/repositories/challenge";
 import { useNavigate, useParams } from "react-router";
-import submitChallengeCache from "../../components/challenge/submitChallengeCache";
+// import { useGeolocation } from "../../utils/geolocation/hooks";
 
 export function ChallengeTry() {
-  const { submit } = useChallengeQuery();
-  const [isSubmit, setIsSubmit] = useState(false);
-  const [imageSubmit, setImageSubmit] = useState<Blob | null>(null);
   const params = useParams();
+  const { challenge, submit } = useChallengeQuery(Number(params.challengeId));
+  const [isSubmit, setIsSubmit] = useState(false);
   const navigate = useNavigate();
+  // const geolocation = useGeolocation();
 
-  useEffect(() => {
-    if (imageSubmit && params.challengeId) {
-      submit
-        .mutateAsync({
-          challengeId: Number(params.challengeId),
-          body: { image: imageSubmit },
-        })
-        .then(() => {
-          submitChallengeCache.set(imageSubmit);
-          navigate("../result");
-        })
-        .catch(() => {
-          alert("사진을 다시 찍어주세요.");
-          setImageSubmit(null);
-        });
-    }
-  }, [imageSubmit]);
+  if (!challenge.data) return null;
 
   return (
     <Main>
@@ -39,11 +23,7 @@ export function ChallengeTry() {
 
       <ImageWrapper>
         <Bubble>근처에 가면 비밀 메시지를 볼 수 있어요.</Bubble>
-        <Image
-          src="https://seeya-server.s3.amazonaws.com/uploads/post_images/2024/02/18/030647_wackathon_1.jpeg"
-          width="100%"
-          height="100%"
-        />
+        <Image src={challenge.data.post.image} width="100%" height="100%" />
       </ImageWrapper>
 
       {!isSubmit ? (
@@ -74,9 +54,10 @@ export function ChallengeTry() {
             capture="environment"
             onChange={(e) => {
               const file = e.target.files?.[0];
-              if (file) {
-                setImageSubmit(file);
-              }
+              if (file)
+                submit.mutateAsync({ image: file }).then(() => {
+                  navigate("../result");
+                });
             }}
           />
         </ResultFar>
