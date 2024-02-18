@@ -1,12 +1,11 @@
 import styled from "@emotion/styled";
 
 type Props = {
-  fill: string;
   isBlendLayer: boolean;
 };
 
 // TODO: export 다시
-export default function MainClipper({ fill, isBlendLayer }: Props) {
+export default function MainClipper({ isBlendLayer }: Props) {
   const x = isBlendLayer ? { fill: "white" } : {};
   return (
     <>

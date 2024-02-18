@@ -20,10 +20,10 @@ export default function TodayChallenge({ challenge }: Props) {
   return (
     <ClipperContainer ref={ref} $height={height} $url={challenge?.image}>
       <Clipper>
-        <MainClipper fill={"#34685D"} isBlendLayer={false} />
+        <MainClipper isBlendLayer={false} />
       </Clipper>
       <Clipper>
-        <MainClipper fill={"white"} isBlendLayer={true} />
+        <MainClipper isBlendLayer={true} />
       </Clipper>
 
       <RepresenChallenge>
