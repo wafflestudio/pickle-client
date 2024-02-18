@@ -30,11 +30,12 @@ const Container = styled.div<{
   $slideDirection: "LEFT" | "RIGHT" | "NONE";
   $animationDuration: number;
 }>`
-  /* position: fixed; */
-  position: relative;
+  position: fixed;
   display: flex;
   animation-fill-mode: forwards;
-  /* top: var(--header-height); */
+  top: 0;
+  width: 100vw;
+  padding-top: var(--header-height);
 
   ${(props) => {
     if (props.$slideDirection === "LEFT")
