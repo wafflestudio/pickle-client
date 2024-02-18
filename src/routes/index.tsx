@@ -25,6 +25,7 @@ import Detail from "../pages/detail";
 import { ChallengeTry } from "../pages/challenge/try";
 import { ChallengeResult } from "../pages/challenge/result";
 import { ChallengeSecret } from "../pages/challenge/secret";
+import Time from "../pages/time";
 
 const router = createBrowserRouter([
   {
@@ -110,6 +111,10 @@ const router = createBrowserRouter([
               {
                 path: "profile",
                 element: <RegisterProfile />,
+              },
+              {
+                path: "time",
+                element: <Time />,
               },
             ],
           },
