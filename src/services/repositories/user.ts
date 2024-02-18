@@ -11,7 +11,16 @@ import { UserSchema, userRepo } from "../apis/user";
 export const useUserQuery = () => {
   const query = useQuery({
     queryKey: ["user", "me"],
-    queryFn: () => userRepo().getMe(),
+    queryFn: async () => {
+      const res = await userRepo().getMe();
+      await new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(res);
+        }, 3000);
+      });
+      return res;
+    },
+
     retry: 1,
     retryDelay: 1000,
     staleTime: Infinity,
@@ -39,5 +48,9 @@ export const useUserQuery = () => {
       userRepo().checkUsername(body),
   });
 
-  return { me: query, login, signup, checkEmail, checkUsername };
+  const uploadTime = useMutation({
+    mutationFn: (body: Blob) => userRepo().postTime({ image: body }),
+  });
+
+  return { me: query, login, signup, checkEmail, checkUsername, uploadTime };
 };
