@@ -1,17 +1,35 @@
 import styled from "@emotion/styled";
 import { Page } from "../../components/common/Page";
-// import { useState } from "react";
+import { useUserQuery } from "../../services/repositories/user";
+// import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 export default function Time() {
-  // const [time, setTime] = useState("");
+  const { uploadTime } = useUserQuery();
+  // const navigate = useNavigate();
+  const [time, setTime] = useState("");
 
   return (
     <Main>
-      <Title>반가워요!</Title>
-      <Greeting>프로필 사진과 이름을 설정해주세요.</Greeting>
-      <Image />
+      <Title>시간표를 업로드해주세요!</Title>
+      <Greeting>공강 시간을 자동으로 인식합니다.</Greeting>
+      {time.length > 0 && <Image src={time} />}
       <Upload htmlFor="timetable">시간표 업로드</Upload>
-      <FileInput id="timetable" />
+      <FileInput
+        id="timetable"
+        type="file"
+        accept="images/*"
+        onChange={(e) => {
+          if (e.target.files) {
+            const file = e.target.files[0];
+            if (file) {
+              uploadTime.mutateAsync(file).then((res) => {
+                setTime(res);
+              });
+            }
+          }
+        }}
+      />
     </Main>
   );
 }

@@ -133,6 +133,18 @@ export class UserRepository {
       return Promise.reject(e);
     }
   }
+
+  async postTime(body: { image: Blob }) {
+    try {
+      const formBody = new FormData();
+      formBody.append("image", body.image);
+      return await this.cli
+        .post(`/api/user/timetable`, formBody)
+        .then((res) => res.data);
+    } catch (e) {
+      return Promise.reject(e);
+    }
+  }
 }
 
 export function userRepo() {
