@@ -4,7 +4,9 @@ import Card from "./Card";
 import { useNavigate } from "react-router";
 
 type Props = {
-  posts?: PostSchema[];
+  posts?: (PostSchema & {
+    my_challenge_id?: number;
+  })[];
 };
 
 export default function OtherChallenges({ posts }: Props) {
@@ -17,18 +19,31 @@ export default function OtherChallenges({ posts }: Props) {
       </Greeting>
 
       <CardGrid>
-        {posts?.map(({ id, image, is_liked, like_count, author_name }) => {
-          return (
-            <Card
-              key={id}
-              image={image}
-              username={author_name}
-              likeCount={like_count}
-              isLiked={is_liked}
-              onClick={() => navigate(`/challenge/${id}`)}
-            />
-          );
-        })}
+        {posts?.map(
+          ({
+            id,
+            image,
+            is_liked,
+            like_count,
+            author_name,
+            my_challenge_id,
+          }) => {
+            return (
+              <Card
+                key={id}
+                image={image}
+                username={author_name}
+                likeCount={like_count}
+                isLiked={is_liked}
+                onClick={() => {
+                  my_challenge_id
+                    ? navigate(`/challenge/${id}/${my_challenge_id}/try`)
+                    : navigate(`/challenge/${id}`);
+                }}
+              />
+            );
+          },
+        )}
       </CardGrid>
     </Section>
   );
