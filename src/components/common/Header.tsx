@@ -8,26 +8,31 @@ import { useNavigate } from "react-router-dom";
 
 interface Props {
   icon?: React.ReactNode;
+  color?: string;
 }
 
-export default function Header({ icon }: Props) {
+export default function Header({ icon, color }: Props) {
   const router = useNavigate();
 
   return (
     <Container>
-      <Button onClick={() => router("/")}>{icon ?? <LogoIcon />}</Button>
+      <Button onClick={() => router("/")}>
+        {icon ?? <LogoIcon color={color} />}
+      </Button>
     </Container>
   );
 }
 
 /* STYLES */
 const Container = styled.header`
+  position: fixed;
   display: flex;
   align-items: center;
   width: 100%;
   height: 104px;
   padding: 64px 16px 12px 18px;
   background-color: transparent;
+  z-index: 100;
 `;
 
 const Button = styled.button`

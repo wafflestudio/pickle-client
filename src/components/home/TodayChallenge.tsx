@@ -26,13 +26,13 @@ export default function TodayChallenge({ challenge }: Props) {
         <MainClipper fill={"white"} isBlendLayer={true} />
       </Clipper>
 
-      {/* <ColorBlender /> */}
-
       <RepresenChallenge>
         <Title>{"오늘의 챌린지"}</Title>
 
-        <ChallDesc>{"비밀 메시지가 기다리고 있는"}</ChallDesc>
-        <ChallTitle>{"사진 속 공간을 찾아 떠나보세요!"}</ChallTitle>
+        <Chall>
+          <ChallDesc>{"비밀 메시지가 기다리고 있는"}</ChallDesc>
+          <ChallTitle>{"사진 속 공간을 찾아 떠나보세요!"}</ChallTitle>
+        </Chall>
       </RepresenChallenge>
     </ClipperContainer>
   );
@@ -64,8 +64,9 @@ const RepresenChallenge = styled.div`
   display: flex;
   flex: 1;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: space-between;
   width: 100%;
+  height: 100%;
   flex-shrink: 0;
   padding: 20px 24px;
   gap: 10px;
@@ -73,15 +74,21 @@ const RepresenChallenge = styled.div`
 `;
 
 const Title = styled.header`
-  color: #000;
+  color: #fff;
   font-size: 24px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
 `;
 
+const Chall = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;
+
 const ChallDesc = styled.span`
-  /* color: #fff; */
+  color: #fff;
   text-align: right;
   font-size: 14px;
   font-style: normal;
@@ -92,7 +99,7 @@ const ChallDesc = styled.span`
 const ChallTitle = styled.h3`
   display: flex;
   justify-content: flex-end;
-  /* color: #fff; */
+  color: #fff;
   text-align: right;
   font-size: 20px;
   font-style: normal;

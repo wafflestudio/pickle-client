@@ -83,7 +83,7 @@ export default function HomeLayout() {
 
   return (
     <>
-      <Header />
+      <Header color={current.path === "" ? "white" : undefined} />
       <SlideContainer
         slideDirection={
           current.id < cache.id

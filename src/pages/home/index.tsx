@@ -40,6 +40,7 @@ function HomeWithGps({ position }: HomeWithGpsProps) {
   return (
     <Main css={hideScroll}>
       <Contents>
+        <div css={{ height: "56px" }} />
         <TodayChallenge challenge={todayChallenge} />
         <OtherChallenges posts={otherChallenges} />
       </Contents>
@@ -50,11 +51,8 @@ function HomeWithGps({ position }: HomeWithGpsProps) {
 const Main = styled(Page)`
   display: flex;
   flex-direction: column;
-  overflow: visible;
-  height: calc(
-    100vh -
-      (var(--nav-height) + var(--nav-bottom-margin) + var(--header-height))
-  );
+  overflow: scroll;
+  height: calc(100vh - (var(--nav-height) + var(--nav-bottom-margin)));
 `;
 
 const Contents = styled.div`
