@@ -74,7 +74,7 @@ function Loading({ message }: LoadingProps) {
 
 const LoadingContainer = styled.div`
   width: 100%;
-  height: 100%;
+  height: 100vh;
 
   display: flex;
   justify-content: center;
@@ -90,7 +90,7 @@ function Error({ message }: ErrorProps) {
 
 const ErrorContainer = styled.div`
   width: 100%;
-  height: 100%;
+  height: 100vh;
 
   display: flex;
   justify-content: center;
