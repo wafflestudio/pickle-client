@@ -43,7 +43,11 @@ const Main = styled(Page)`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background-color: #1e1e1e;
+  background:
+    linear-gradient(0deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.3) 100%),
+    linear-gradient(0deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0) 28.96%),
+    url("/backgrounds/splash_bg.png"),
+    lightgray -276.691px -154.107px / 342.276% 119.104% no-repeat;
 `;
 
 const Top = styled.div`
