@@ -30,7 +30,7 @@ export function ChallengeTry() {
         <ResultFar>
           <DistanceWrapper>
             <DistanceSub>현재 위치에서</DistanceSub>
-            <DistanceMain>분</DistanceMain>
+            <DistanceMain>{}분</DistanceMain>
             <DistanceSub>이면 갈 수 있어요.</DistanceSub>
           </DistanceWrapper>
           <DistanceDialogue onClick={() => setIsSubmit(true)}>

@@ -57,6 +57,7 @@ export default function GuestLayout() {
     <SlideContainer
       animationDuration={ANIMATION_DURATION}
       slideDirection={current.id > cache.id ? "RIGHT" : "NONE"}
+      padding={false}
     >
       {render}
     </SlideContainer>

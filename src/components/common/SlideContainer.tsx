@@ -9,17 +9,20 @@ import { PropsWithChildren } from "react";
 type SlideContainerProps = PropsWithChildren & {
   slideDirection: "LEFT" | "RIGHT" | "NONE";
   animationDuration?: number;
+  padding?: boolean;
 };
 
 export default function SlideContainer({
   children,
   slideDirection,
   animationDuration = 1000,
+  padding = true,
 }: SlideContainerProps) {
   return (
     <Container
       $slideDirection={slideDirection}
       $animationDuration={animationDuration}
+      css={{ paddingTop: padding ? "var(--header-height)" : "0" }}
     >
       {children}
     </Container>
@@ -35,7 +38,6 @@ const Container = styled.div<{
   animation-fill-mode: forwards;
   top: 0;
   width: 390px;
-  padding-top: var(--header-height);
 
   ${(props) => {
     if (props.$slideDirection === "LEFT")
