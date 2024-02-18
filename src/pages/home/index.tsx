@@ -81,7 +81,7 @@ function Loading({ message }: LoadingProps) {
 const LoadingContainer = styled.div`
   position: fixed;
   top: 0;
-  width: 100vw;
+  width: 390px;
   height: 100vh;
 
   display: flex;

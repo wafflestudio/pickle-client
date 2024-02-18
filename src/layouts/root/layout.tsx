@@ -23,7 +23,7 @@ export default function RootLayout() {
 
 const Main = styled.main`
   position: relative;
-  width: 100vw;
+  width: 390px;
   overflow: hidden;
   max-width: var(--max-width);
   margin: auto;

@@ -140,8 +140,8 @@ const ImageContainer = styled.div`
   animation-delay: 0.6s;
 `;
 const ImageWrapper = styled.div`
-  width: calc((100vw - 46px) / 2);
-  height: calc((100vw - 46px) / 2);
+  width: calc((390px - 46px) / 2);
+  height: calc((390px - 46px) / 2);
   flex-shrink: 1;
   border-radius: 8px;
   overflow: hidden;

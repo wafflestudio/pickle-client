@@ -34,7 +34,7 @@ const Container = styled.div<{
   display: flex;
   animation-fill-mode: forwards;
   top: 0;
-  width: 100vw;
+  width: 390px;
   padding-top: var(--header-height);
 
   ${(props) => {

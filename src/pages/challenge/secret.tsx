@@ -87,8 +87,8 @@ const TitleMain = styled.div`
 
 const ImageWrapper = styled.div`
   position: relative;
-  width: calc(100vw - 32px);
-  height: calc(100vw - 32px);
+  width: calc(390px - 32px);
+  height: calc(390px - 32px);
   border-radius: 8px;
   overflow: hidden;
   margin-bottom: 38px;
