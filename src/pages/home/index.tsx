@@ -49,6 +49,8 @@ function HomeWithGps({ position }: HomeWithGpsProps) {
 }
 
 const Main = styled(Page)`
+  position: fixed;
+  top: 0;
   display: flex;
   flex-direction: column;
   overflow: scroll;
@@ -73,7 +75,9 @@ function Loading({ message }: LoadingProps) {
 }
 
 const LoadingContainer = styled.div`
-  width: 100%;
+  position: fixed;
+  top: 0;
+  width: 100vw;
   height: 100vh;
 
   display: flex;
@@ -89,7 +93,9 @@ function Error({ message }: ErrorProps) {
 }
 
 const ErrorContainer = styled.div`
-  width: 100%;
+  position: fixed;
+  top: 0;
+  width: 100vw;
   height: 100vh;
 
   display: flex;
