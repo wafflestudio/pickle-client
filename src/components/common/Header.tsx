@@ -14,8 +14,9 @@ interface Props {
 export default function Header({ icon, color }: Props) {
   const router = useNavigate();
 
+  const position = color ? "fixed" : "sticky";
   return (
-    <Container>
+    <Container css={{ position: position }}>
       <Button onClick={() => router("/")}>
         {icon ?? <LogoIcon color={color} />}
       </Button>
@@ -24,8 +25,7 @@ export default function Header({ icon, color }: Props) {
 }
 
 /* STYLES */
-const Container = styled.header`
-  position: fixed;
+const Container = styled.header<{ $color?: string }>`
   display: flex;
   align-items: center;
   width: 100%;
