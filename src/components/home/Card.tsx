@@ -10,9 +10,10 @@ interface Props {
   image: string;
   likeCount: number;
   isLiked: boolean;
+  onClick: () => void;
 }
 
-export default function Card({ username, image, likeCount }: Props) {
+export default function Card({ username, image, likeCount, onClick }: Props) {
   const [size, setSize] = useState(0);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -23,7 +24,7 @@ export default function Card({ username, image, likeCount }: Props) {
   }, []);
 
   return (
-    <Container ref={ref} $height={size}>
+    <Container ref={ref} $height={size} onClick={onClick}>
       <Image src={image} alt="사진" />
 
       <ClipCotainer>

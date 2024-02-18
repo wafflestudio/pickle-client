@@ -1,12 +1,14 @@
 import styled from "@emotion/styled";
 import { PostSchema } from "../../services/apis/post";
 import Card from "./Card";
+import { useNavigate } from "react-router";
 
 type Props = {
   posts?: PostSchema[];
 };
 
 export default function OtherChallenges({ posts }: Props) {
+  const navigate = useNavigate();
   return (
     <Section>
       <Greeting>
@@ -23,6 +25,7 @@ export default function OtherChallenges({ posts }: Props) {
               username={author_name}
               likeCount={like_count}
               isLiked={is_liked}
+              onClick={() => navigate(`/challenge/${id}`)}
             />
           );
         })}

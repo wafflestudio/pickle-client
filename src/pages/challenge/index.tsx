@@ -7,7 +7,7 @@ import { css, keyframes } from "@emotion/react";
 import { useGetPostQuery } from "../../services/repositories/post";
 import { getGeolocation } from "../../utils/geolocation/hooks";
 import { distance } from "../../utils/geolocation/utils";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 export function Challenge() {
   const { start } = useChallengeStartQuery();
@@ -18,6 +18,19 @@ export function Challenge() {
   const params = useParams();
   const navigate = useNavigate();
   const query = useGetPostQuery(Number(params.postId));
+
+  const min = useMemo(() => {
+    {
+      if (currentLocation) {
+        const dist = distance(currentLocation, {
+          latitude: query.data.latitude,
+          longitude: query.data.longitude,
+        });
+        const min = dist / 100;
+        return min > 99 ? 99 : min.toFixed(0);
+      }
+    }
+  }, []);
 
   useEffect(() => {
     getGeolocation().then((position) => {
@@ -45,14 +58,7 @@ export function Challenge() {
       </ImageWrapper>
       <DistanceWrapper>
         <DistanceSub>현재 위치에서</DistanceSub>
-        <DistanceMain>
-          {currentLocation &&
-            distance(currentLocation, {
-              latitude: query.data.latitude,
-              longitude: query.data.longitude,
-            })}
-          분
-        </DistanceMain>
+        <DistanceMain>{min}분</DistanceMain>
         <DistanceSub>이면 갈 수 있어요.</DistanceSub>
       </DistanceWrapper>
 
