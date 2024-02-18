@@ -20,7 +20,7 @@ export default function Feed() {
   const [latitude, setLatitude] = useState(37.50324);
   const [longitude, setLongitude] = useState(127.03996);
   const [isFetching, setIsFetching] = useState(false);
-  const [loadingLocation, setLoadingLocation] = useState(true);
+  const [loadingLocation, setLoadingLocation] = useState(false);
   const [posts, setPosts] = useState<
     PostApiSchema["getPostList"]["response"]["results"]
   >([]);
