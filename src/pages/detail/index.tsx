@@ -9,7 +9,7 @@ import styled from "@emotion/styled";
 import { Page } from "../../components/common/Page";
 import { hideScroll } from "../../utils/emotion/scroll";
 import { useGetPostQuery } from "../../services/repositories/post";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Post from "../../components/feed/Post";
 import ArrowUpIcon from "../../components/icons/ArrowUp";
 import { useGetRank } from "../../services/repositories/homeChallenge";
@@ -23,11 +23,13 @@ export default function Detail() {
   const { feedId } = useParams();
   const { data: feed } = useGetPostQuery(Number(feedId!));
   const { data: rankList } = useGetRank(Number(feedId!));
+  const navigate = useNavigate();
 
   const [open, setOpen] = useState(false);
 
   if (!feed) return null;
   const {
+    id,
     created_at: date,
     author_name: username,
     image: imageUrl,
@@ -111,7 +113,13 @@ export default function Detail() {
               </ChallengedButton>
             ) : (
               // TODO: 여기에 네비게이트
-              <Button>
+              <Button
+                onClick={() => {
+                  isChallenged
+                    ? navigate(`/challenge/${id}/${isChallenged}/try`)
+                    : navigate(`/challenge/${id}`);
+                }}
+              >
                 <FlagFillIcon color={"#fff"} width={22} height={22} />
                 {"도전하기"}
               </Button>
