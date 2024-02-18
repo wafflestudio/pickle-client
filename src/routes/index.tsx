@@ -24,6 +24,8 @@ import ChallengeLayout from "../layouts/challenge/index";
 import Detail from "../pages/detail";
 import { ChallengeTry } from "../pages/challenge/try";
 import { ChallengeResult } from "../pages/challenge/result";
+import { ChallengeSecret } from "../pages/challenge/secret";
+import Time from "../pages/time";
 
 const router = createBrowserRouter([
   {
@@ -63,21 +65,27 @@ const router = createBrowserRouter([
                 element: <Create />,
               },
               {
-                path: ":challengeId",
+                path: ":postId",
                 element: <ChallengeLayout />,
                 children: [
                   { path: "", element: <Challenge /> },
                   {
-                    path: "try",
-                    element: <ChallengeTry />,
-                  },
-                  {
-                    path: "result",
-                    element: <ChallengeResult />,
-                  },
-                  {
-                    path: "secret",
-                    element: <Wip name="비밀 메시지" color="#4b52b1" />,
+                    path: ":challengeId",
+                    element: <Outlet />,
+                    children: [
+                      {
+                        path: "try",
+                        element: <ChallengeTry />,
+                      },
+                      {
+                        path: "result",
+                        element: <ChallengeResult />,
+                      },
+                      {
+                        path: "secret",
+                        element: <ChallengeSecret />,
+                      },
+                    ],
                   },
                 ],
               },
@@ -103,6 +111,10 @@ const router = createBrowserRouter([
               {
                 path: "profile",
                 element: <RegisterProfile />,
+              },
+              {
+                path: "time",
+                element: <Time />,
               },
             ],
           },

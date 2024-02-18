@@ -1,14 +1,18 @@
 import styled from "@emotion/styled";
 import { Page } from "../../components/common/Page";
-import MainLogoIcon from "../../components/icons/MainLogo";
+// import MainLogoIcon from "../../components/icons/MainLogo";
 import MainWordMarkIcon from "../../components/icons/MainWordMark";
+import { SplashLottie } from "../../components/lottie";
 
 export default function Splash() {
   return (
     <Main>
       <Top>
         <LogoContainer>
-          <MainLogoIcon />
+          <Container>
+            <SplashLottie />
+          </Container>
+          {/* <MainLogoIcon /> */}
           <MainWordMarkIcon height={36} />
         </LogoContainer>
         <Description>
@@ -76,4 +80,9 @@ const Credit = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+const Container = styled.div`
+  width: 200px;
+  height: 200px;
 `;
