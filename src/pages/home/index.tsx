@@ -51,10 +51,7 @@ const Main = styled(Page)`
   display: flex;
   flex-direction: column;
   overflow: visible;
-  height: calc(
-    100vh -
-      (var(--nav-height) + var(--nav-bottom-margin) + var(--header-height))
-  );
+  height: calc(100vh - (var(--nav-height) + var(--nav-bottom-margin)));
 `;
 
 const Contents = styled.div`

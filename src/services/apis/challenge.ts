@@ -90,9 +90,9 @@ export class ChallengeRepository {
   }
 
   // TODO: unknown DTO
-  async postChallenge(body: ChallengeSchema["postChallenge"]["request"]) {
+  async postChallenge(body: ChallengeApiSchema["postChallenge"]["request"]) {
     try {
-      const validBody = ChallengeSchema.postChallenge.request.parse(body);
+      const validBody = ChallengeApiSchema.postChallenge.request.parse(body);
       return await this.cli
         .post(`/api/challenge/`, validBody)
         .then((res) => res.data);
@@ -103,10 +103,10 @@ export class ChallengeRepository {
 
   async postSubmit(
     challengeId: number,
-    body: ChallengeSchema["postSubmit"]["request"],
+    body: ChallengeApiSchema["postSubmit"]["request"],
   ) {
     try {
-      const validBody = ChallengeSchema.postSubmit.request.parse(body);
+      const validBody = ChallengeApiSchema.postSubmit.request.parse(body);
       const formData = new FormData();
       formData.append("image", validBody.image);
       return await this.cli
