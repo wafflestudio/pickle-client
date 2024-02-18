@@ -29,9 +29,9 @@ interface HomeWithGpsProps {
 }
 
 function HomeWithGps({ position }: HomeWithGpsProps) {
-  const { isLoading: todayChallengeLoading, data: todayChallenge } =
+  const { isPending: todayChallengeLoading, data: todayChallenge } =
     useTodayChallengeQuery(position.coords);
-  const { isLoading: otherChallengesLoading, data: otherChallenges } =
+  const { isPending: otherChallengesLoading, data: otherChallenges } =
     useOhterChallengesQuery(position.coords);
 
   if (todayChallengeLoading || otherChallengesLoading)
