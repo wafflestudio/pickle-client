@@ -30,7 +30,7 @@ export function Challenge() {
         return min > 99 ? 99 : min.toFixed(0);
       }
     }
-  }, []);
+  }, [currentLocation, query.data]);
 
   useEffect(() => {
     getGeolocation().then((position) => {
