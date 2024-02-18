@@ -181,6 +181,8 @@ const Desc = styled.h6<{ $align?: alignType }>`
   margin: 0;
   max-width: 70%;
   word-break: keep-all;
+  -webkit-text-stroke-width: 0.25;
+  -webkit-text-stroke-color: #786e5a;
 `;
 
 const Icons = styled.div<{ $align?: alignType }>`
