@@ -3,7 +3,7 @@ import { Page } from "../../components/common/Page";
 import ThumbsUpFillIcon from "../../components/icons/ThumbsUpFill";
 import ThumbsUpIcon from "../../components/icons/ThumbsUp";
 import { useChallengeQuery } from "../../services/repositories/challenge";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { useEffect, useMemo, useState } from "react";
 import { keyframes } from "@emotion/react";
 
@@ -12,7 +12,7 @@ export function ChallengeResult() {
   const { challenge, getEvaluation } = useChallengeQuery(
     Number(params.challengeId),
   );
-
+  const navigate = useNavigate();
   const [rawComment, setRawComment] = useState("");
 
   const parsedComment = useMemo(() => {
@@ -57,7 +57,7 @@ export function ChallengeResult() {
         <TitleMain>오늘의 챌린지</TitleMain>
         <TitleSub>도전에 성공했어요.</TitleSub>
       </TitleWrapper>
-      <ImageContainer>
+      <ImageContainer onClick={() => navigate("../secret")}>
         <ImageWrapper>
           <Image src={challenge.data.post.image} width="100%" height="100%" />
         </ImageWrapper>
