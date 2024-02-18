@@ -17,22 +17,26 @@ import TodayChallenge from "../../components/home/TodayChallenge";
 import OtherChallenges from "../../components/home/OtherChallenges";
 
 export default function Home() {
-  const { position, error, status } = useGeolocation();
+  const { position, status } = useGeolocation();
   if (status === "pending")
     return <Loading message="위치 정보 불러오는 중..." />;
-  else if (status === "error") return <Error message={error.message} />;
+  else if (status === "error") return <HomeWithGps />;
   else if (status === "success") return <HomeWithGps position={position} />;
 }
 
 interface HomeWithGpsProps {
-  position: GeolocationPosition;
+  position?: GeolocationPosition;
 }
 
 function HomeWithGps({ position }: HomeWithGpsProps) {
   const { isPending: todayChallengeLoading, data: todayChallenge } =
-    useTodayChallengeQuery(position.coords);
+    useTodayChallengeQuery(
+      position?.coords ?? { latitude: 37.50324, longitude: 127.03996 },
+    );
   const { isPending: otherChallengesLoading, data: otherChallenges } =
-    useOhterChallengesQuery(position.coords);
+    useOhterChallengesQuery(
+      position?.coords ?? { latitude: 37.50324, longitude: 127.03996 },
+    );
 
   if (todayChallengeLoading || otherChallengesLoading)
     return <Loading message="주변 챌린지 찾는 중..." />;
@@ -75,24 +79,6 @@ function Loading({ message }: LoadingProps) {
 }
 
 const LoadingContainer = styled.div`
-  position: fixed;
-  top: 0;
-  width: 100vw;
-  height: 100vh;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-type ErrorProps = {
-  message: string;
-};
-function Error({ message }: ErrorProps) {
-  return <ErrorContainer>{message}</ErrorContainer>;
-}
-
-const ErrorContainer = styled.div`
   position: fixed;
   top: 0;
   width: 100vw;
