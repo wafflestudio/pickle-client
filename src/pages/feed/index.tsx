@@ -38,39 +38,37 @@ export function FeedWithGps({ position }: FeedWithGpsProps) {
   const navigate = useNavigate();
   const observer = useRef<IntersectionObserver | null>(null);
   const [cursor, setCursor] = useState("");
-  const [isFetching, setIsFetching] = useState(false);
-  const [posts, setPosts] = useState<
-    PostApiSchema["getPostList"]["response"]["results"]
-  >([]);
+  const posts = useRef<PostApiSchema["getPostList"]["response"]["results"]>([]);
+  const updatedAt = useRef<number>(0);
 
-  const { data: feedList, isLoading } = useGetPostListQuery({
+  const {
+    data: feedList,
+    isLoading,
+    dataUpdatedAt,
+  } = useGetPostListQuery({
     latitude,
     longitude,
     cursor,
-    limit: 200, // TODO: 무한스크롤로 수정
+    limit: 10,
   });
 
-  // TODO: 무한 스크롤 디버깅해야함
+  if (updatedAt.current !== dataUpdatedAt) {
+    updatedAt.current = dataUpdatedAt;
+    posts.current = [...posts.current, ...(feedList?.results ?? [])];
+  }
 
   useEffect(() => {
-    if (!feedList) return;
-    setPosts((prevPosts) => [...prevPosts, ...feedList.results]);
-    setIsFetching(false);
-  }, [feedList]);
-
-  useEffect(() => {
-    if (!isFetching || isLoading) return;
+    if (isLoading) return;
 
     const observerOptions = {
       root: null,
       rootMargin: "20px",
-      threshold: 0.5,
+      threshold: 1,
     };
 
     const handleObserver: IntersectionObserverCallback = (entities) => {
       const target = entities[0];
-      if (target.isIntersecting) {
-        setIsFetching(true);
+      if (target.isIntersecting && !isLoading) {
         setCursor(feedList?.next ?? "");
       }
     };
@@ -79,14 +77,15 @@ export function FeedWithGps({ position }: FeedWithGpsProps) {
       handleObserver,
       observerOptions,
     );
-    if (observer.current && feedList?.next) {
+
+    if (observer.current !== null && feedList?.next) {
       observer.current.observe(document.getElementById("observe")!); // 타입 단언을 사용하여 null 이 아님을 보장
     }
 
     return () => {
       observer.current?.disconnect();
     };
-  }, [isFetching, isLoading, feedList]);
+  }, [isLoading, feedList]);
 
   return (
     <Main css={hideScroll}>
@@ -95,9 +94,9 @@ export function FeedWithGps({ position }: FeedWithGpsProps) {
           <Title>{"둘러보기"}</Title>
           <Desc>{"현재 위치에서 가까운 게시물이 보입니다."}</Desc>
         </Greeting>
-        {posts?.length ? (
+        {posts.current.length ? (
           <Grid>
-            {posts.map(
+            {posts.current.map(
               (
                 {
                   id,
