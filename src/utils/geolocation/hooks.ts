@@ -14,7 +14,7 @@ const GeolocationNotSupportedError: GeolocationError = {
   message: "GPS가 지원되지 않는 기기입니다.",
 };
 
-type GeolocationData =
+export type GeolocationData =
   | {
       position: GeolocationPosition;
       error: null;
@@ -58,6 +58,7 @@ export function useGeolocation(): GeolocationData {
       return;
     }
 
+    geo.getCurrentPosition(onSuccess, onError);
     const watchId = geo.watchPosition(onSuccess, onError);
 
     return () => geo.clearWatch(watchId);

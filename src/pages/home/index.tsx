@@ -8,38 +8,41 @@ import styled from "@emotion/styled";
 import { Page } from "../../components/common/Page";
 import { hideScroll } from "../../utils/emotion/scroll";
 
+import { useContext } from "react";
+import Fallback from "../../components/common/Fallback";
+import OtherChallenges from "../../components/home/OtherChallenges";
+import TodayChallenge from "../../components/home/TodayChallenge";
+import { GeolocationContext } from "../../layouts/root/context";
 import {
   useOhterChallengesQuery,
   useTodayChallengeQuery,
 } from "../../services/repositories/challenge";
-import { useGeolocation } from "../../utils/geolocation/hooks";
-import TodayChallenge from "../../components/home/TodayChallenge";
-import OtherChallenges from "../../components/home/OtherChallenges";
 
 export default function Home() {
-  const { position, status } = useGeolocation();
+  const { position, error, status } = useContext(GeolocationContext);
   if (status === "pending")
-    return <Loading message="위치 정보 불러오는 중..." />;
-  else if (status === "error") return <HomeWithGps />;
+    return <Fallback message="위치 정보 불러오는 중..." />;
+  else if (status === "error")
+    return (
+      <Fallback
+        message={`위치 정보를 불러오지 못했습니다.\n${error.message}`}
+      />
+    );
   else if (status === "success") return <HomeWithGps position={position} />;
 }
 
 interface HomeWithGpsProps {
-  position?: GeolocationPosition;
+  position: GeolocationPosition;
 }
 
 function HomeWithGps({ position }: HomeWithGpsProps) {
   const { isPending: todayChallengeLoading, data: todayChallenge } =
-    useTodayChallengeQuery(
-      position?.coords ?? { latitude: 37.50324, longitude: 127.03996 },
-    );
+    useTodayChallengeQuery(position.coords);
   const { isPending: otherChallengesLoading, data: otherChallenges } =
-    useOhterChallengesQuery(
-      position?.coords ?? { latitude: 37.50324, longitude: 127.03996 },
-    );
+    useOhterChallengesQuery(position.coords);
 
   if (todayChallengeLoading || otherChallengesLoading)
-    return <Loading message="주변 챌린지 찾는 중..." />;
+    return <Fallback message="주변 챌린지 찾는 중..." />;
 
   return (
     <Main css={hideScroll}>
@@ -68,23 +71,4 @@ const Contents = styled.div`
   flex: 1;
   gap: 48px;
   margin-bottom: 120px; // TODO: 임시
-`;
-
-type LoadingProps = {
-  message: string;
-};
-
-function Loading({ message }: LoadingProps) {
-  return <LoadingContainer>{message}</LoadingContainer>;
-}
-
-const LoadingContainer = styled.div`
-  position: fixed;
-  top: 0;
-  width: 390px;
-  height: 100vh;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
 `;

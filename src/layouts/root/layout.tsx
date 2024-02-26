@@ -6,18 +6,22 @@
  */
 
 import { Global } from "@emotion/react";
-import globalStyle from "../../utils/emotion/globalStyle";
-import { Outlet } from "react-router-dom";
 import styled from "@emotion/styled";
+import { Outlet } from "react-router-dom";
+import globalStyle from "../../utils/emotion/globalStyle";
+import { useGeolocation } from "../../utils/geolocation/hooks";
+import { GeolocationContext } from "./context";
 
 export default function RootLayout() {
+  const geolocationData = useGeolocation();
+
   return (
-    <>
+    <GeolocationContext.Provider value={geolocationData}>
       <Main>
         <Global styles={globalStyle} />
         <Outlet />
       </Main>
-    </>
+    </GeolocationContext.Provider>
   );
 }
 
