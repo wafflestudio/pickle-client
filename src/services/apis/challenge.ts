@@ -69,6 +69,9 @@ export type ChallengeApiSchema = {
       (typeof ChallengeApiSchema)["getOtherChallenges"]["response"]
     >;
   };
+  get: {
+    response: z.infer<(typeof ChallengeApiSchema)["get"]["response"]>;
+  };
   postChallenge: {
     request: z.infer<(typeof ChallengeApiSchema)["postChallenge"]["request"]>;
   };
@@ -108,7 +111,9 @@ export class ChallengeRepository {
       .catch((err) => err);
   }
 
-  async get(challengeId: number) {
+  async get(
+    challengeId: number,
+  ): Promise<ChallengeApiSchema["get"]["response"]> {
     return await this.cli
       .get(`/api/challenge/${challengeId}`)
       .then((res) => res.data)

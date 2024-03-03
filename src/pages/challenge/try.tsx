@@ -1,18 +1,60 @@
 import styled from "@emotion/styled";
 import { Page } from "../../components/common/Page";
-import { useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import { useChallengeQuery } from "../../services/repositories/challenge";
 import { useNavigate, useParams } from "react-router";
-// import { useGeolocation } from "../../utils/geolocation/hooks";
+import { GeolocationContext } from "../../layouts/root/context";
+import { travelTime } from "../../utils/geolocation/utils";
+import Fallback from "../../components/common/Fallback";
+
+type ChallengeTryProps = {
+  challengeId: number;
+  position: GeolocationPosition;
+};
 
 export function ChallengeTry() {
   const params = useParams();
-  const { challenge, submit } = useChallengeQuery(Number(params.challengeId));
+  const { position, error, status } = useContext(GeolocationContext);
+
+  if (status === "pending")
+    return <Fallback message="위치 정보 불러오는 중..." />;
+  else if (status === "error")
+    return (
+      <Fallback
+        message={`위치 정보를 불러오지 못했습니다.\n${error.message}`}
+      />
+    );
+  else if (status === "success")
+    return (
+      <ChallengeTryWithGps
+        challengeId={Number(params.challengeId)}
+        position={position}
+      />
+    );
+}
+
+function ChallengeTryWithGps({ challengeId, position }: ChallengeTryProps) {
+  const {
+    challenge: { data },
+    submit,
+  } = useChallengeQuery(Number(challengeId));
   const [isSubmit, setIsSubmit] = useState(false);
   const navigate = useNavigate();
-  // const geolocation = useGeolocation();
 
-  if (!challenge.data) return null;
+  const min = useMemo(() => {
+    if (data) {
+      return travelTime(
+        position.coords,
+        {
+          latitude: data?.coordinate.latitude,
+          longitude: data?.coordinate.longitude,
+        },
+        100,
+      );
+    }
+  }, [position, data]);
+
+  if (!data || !position) return null;
 
   return (
     <Main>
@@ -23,15 +65,24 @@ export function ChallengeTry() {
 
       <ImageWrapper>
         <Bubble>근처에 가면 비밀 메시지를 볼 수 있어요.</Bubble>
-        <Image src={challenge.data.post.image} width="100%" height="100%" />
+        <Image src={data.post.image} width="100%" height="100%" />
       </ImageWrapper>
 
       {!isSubmit ? (
         <ResultFar>
           <DistanceWrapper>
             <DistanceSub>현재 위치에서</DistanceSub>
-            <DistanceMain>{}분</DistanceMain>
-            <DistanceSub>이면 갈 수 있어요.</DistanceSub>
+            {min && min < 100 ? (
+              <>
+                <DistanceMain>{min?.toFixed(0)}분</DistanceMain>
+                <DistanceSub>이면 갈 수 있어요.</DistanceSub>
+              </>
+            ) : (
+              <>
+                <DistanceMain>99분</DistanceMain>
+                <DistanceSub>이상 떨어져있어요.</DistanceSub>
+              </>
+            )}
           </DistanceWrapper>
           <DistanceDialogue onClick={() => setIsSubmit(true)}>
             점점 가까워지고 있어요!
