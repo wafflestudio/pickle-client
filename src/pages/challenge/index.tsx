@@ -8,7 +8,7 @@ import { Page } from "../../components/common/Page";
 import { GeolocationContext } from "../../layouts/root/context";
 import { useChallengeStartQuery } from "../../services/repositories/challenge";
 import { useGetPostQuery } from "../../services/repositories/post";
-import { distance } from "../../utils/geolocation/utils";
+import { travelTime } from "../../utils/geolocation/utils";
 import { PostApiSchema } from "../../services/apis/post";
 
 export function Challenge() {
@@ -42,15 +42,15 @@ function ChallengeWithGps({ position, data }: ChallengeWithGpsProps) {
   const navigate = useNavigate();
 
   const min = useMemo(() => {
-    {
-      if (position) {
-        const dist = distance(position.coords, {
+    if (position) {
+      return travelTime(
+        position.coords,
+        {
           latitude: data.latitude,
           longitude: data.longitude,
-        });
-        const min = dist / 100;
-        return min > 99 ? 99 : min.toFixed(0);
-      }
+        },
+        100,
+      );
     }
   }, [position, data]);
 
@@ -69,8 +69,17 @@ function ChallengeWithGps({ position, data }: ChallengeWithGpsProps) {
       </ImageWrapper>
       <DistanceWrapper>
         <DistanceSub>현재 위치에서</DistanceSub>
-        <DistanceMain>{min}분</DistanceMain>
-        <DistanceSub>이면 갈 수 있어요.</DistanceSub>
+        {min && min < 100 ? (
+          <>
+            <DistanceMain>{min?.toFixed(0)}분</DistanceMain>
+            <DistanceSub>이면 갈 수 있어요.</DistanceSub>
+          </>
+        ) : (
+          <>
+            <DistanceMain>99분</DistanceMain>
+            <DistanceSub>이상 떨어져있어요.</DistanceSub>
+          </>
+        )}
       </DistanceWrapper>
 
       <FullButton
