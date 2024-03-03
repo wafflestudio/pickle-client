@@ -54,6 +54,18 @@ function ChallengeTryWithGps({ challengeId, position }: ChallengeTryProps) {
     }
   }, [position, data]);
 
+  const canSubmit = min && min <= 1;
+
+  const onSubmit = () => {
+    if (!canSubmit) {
+      alert(
+        "목표 지점과 너무 멀어서 챌린지를 완료할 수 없습니다.\n더 가까이 간 후 다시 시도해주세요.",
+      );
+      return;
+    }
+    setIsSubmit(true);
+  };
+
   if (!data || !position) return null;
 
   return (
@@ -84,8 +96,8 @@ function ChallengeTryWithGps({ challengeId, position }: ChallengeTryProps) {
               </>
             )}
           </DistanceWrapper>
-          <DistanceDialogue onClick={() => setIsSubmit(true)}>
-            점점 가까워지고 있어요!
+          <DistanceDialogue onClick={onSubmit}>
+            {canSubmit ? "도착했어요!" : "점점 가까워지고 있어요!"}
           </DistanceDialogue>
         </ResultFar>
       ) : (
