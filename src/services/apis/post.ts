@@ -183,14 +183,18 @@ export class PostRepository {
       .catch((e) => Promise.reject(e));
   }
 
-  async getPost(feedId: PostApiSchema["getPost"]["request"]) {
+  async getPost(
+    feedId: PostApiSchema["getPost"]["request"],
+  ): Promise<PostApiSchema["getPost"]["response"]> {
     return await this.cli
       .get(`/api/post/${feedId}`)
       .then((res) => res.data)
       .catch((e) => Promise.reject(e));
   }
 
-  async like(feedId: PostApiSchema["like"]["request"]) {
+  async like(
+    feedId: PostApiSchema["like"]["request"],
+  ): Promise<PostApiSchema["like"]["response"]> {
     return await this.cli
       .post(`/api/post/${feedId}/like`, {})
       .then((res) => res.data)

@@ -9,9 +9,13 @@ import { GeolocationContext } from "../../layouts/root/context";
 import { useChallengeStartQuery } from "../../services/repositories/challenge";
 import { useGetPostQuery } from "../../services/repositories/post";
 import { distance } from "../../utils/geolocation/utils";
+import { PostApiSchema } from "../../services/apis/post";
 
 export function Challenge() {
   const { position, error, status } = useContext(GeolocationContext);
+  const params = useParams();
+  const { data, isSuccess, isLoading } = useGetPostQuery(Number(params.postId));
+
   if (status === "pending")
     return <Fallback message="위치 정보 불러오는 중..." />;
   else if (status === "error")
@@ -20,34 +24,35 @@ export function Challenge() {
         message={`위치 정보를 불러오지 못했습니다.\n${error.message}`}
       />
     );
-  else if (status === "success")
-    return <ChallengeWithGps position={position} />;
+  else if (status === "success") {
+    if (isLoading) return <Fallback message="챌린지 정보 불러오는 중..." />;
+    else if (isSuccess)
+      return <ChallengeWithGps position={position} data={data} />;
+  }
 }
 
 interface ChallengeWithGpsProps {
   position: GeolocationPosition;
+  data: PostApiSchema["getPost"]["response"];
 }
 
-function ChallengeWithGps({ position }: ChallengeWithGpsProps) {
+function ChallengeWithGps({ position, data }: ChallengeWithGpsProps) {
   const { start } = useChallengeStartQuery();
   const params = useParams();
   const navigate = useNavigate();
-  const query = useGetPostQuery(Number(params.postId));
 
   const min = useMemo(() => {
     {
       if (position) {
         const dist = distance(position.coords, {
-          latitude: query.data.latitude,
-          longitude: query.data.longitude,
+          latitude: data.latitude,
+          longitude: data.longitude,
         });
         const min = dist / 100;
         return min > 99 ? 99 : min.toFixed(0);
       }
     }
-  }, [position, query.data]);
-
-  if (query.status !== "success") return null;
+  }, [position, data]);
 
   return (
     <Main>
@@ -60,7 +65,7 @@ function ChallengeWithGps({ position }: ChallengeWithGpsProps) {
       </TitleWrapper>
       <ImageWrapper>
         <Bubble>근처에 가면 비밀 메시지를 볼 수 있어요.</Bubble>
-        <Image src={query.data.image} width={340} height={340} />
+        <Image src={data.image} width={340} height={340} />
       </ImageWrapper>
       <DistanceWrapper>
         <DistanceSub>현재 위치에서</DistanceSub>
