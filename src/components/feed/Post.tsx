@@ -1,10 +1,10 @@
 import { useCallback, useMemo } from "react";
 
 import styled from "@emotion/styled";
-import LikeIcon from "../icons/Like";
-import FlagIcon from "../icons/Flag";
-import { useLikeMutation } from "../../services/repositories/post";
 import { useParams } from "react-router-dom";
+import { useLikeMutation } from "../../services/repositories/post";
+import FlagIcon from "../icons/Flag";
+import LikeIcon from "../icons/Like";
 import LikeFillIcon from "../icons/LikeFill";
 
 interface Props {
@@ -154,6 +154,7 @@ const Username = styled.span<{ $align?: alignType }>`
   text-transform: uppercase;
   font-family: "VCR OSD Mono", sans-serif;
   writing-mode: vertical-lr;
+  text-orientation: sideways;
   text-align: ${({ $align }) => $align};
 `;
 
@@ -165,6 +166,7 @@ const DateText = styled.span<{ $align?: alignType }>`
   font-weight: 400;
   line-height: 140%;
   writing-mode: vertical-lr;
+  text-orientation: sideways;
   text-align: ${({ $align }) => $align};
 `;
 

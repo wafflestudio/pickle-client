@@ -12,7 +12,12 @@ export const useGetPostListQuery = (
   body: PostApiSchema["getPostList"]["request"],
 ) => {
   const query = useQuery({
-    queryKey: ["postList"],
+    queryKey: [
+      "postList",
+      body.cursor,
+      body.latitude.toFixed(4),
+      body.longitude.toFixed(4),
+    ],
     queryFn: () => postRepo().getPostList(body),
     retry: 1,
     retryDelay: 1000,

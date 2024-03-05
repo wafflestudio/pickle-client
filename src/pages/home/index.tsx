@@ -56,8 +56,8 @@ function HomeWithGps({ position }: HomeWithGpsProps) {
 }
 
 const Main = styled(Page)`
-  position: fixed;
-  top: 0;
+  position: relative;
+  top: calc(-1 * var(--header-height));
   display: flex;
   flex-direction: column;
   overflow: scroll;

@@ -5,26 +5,26 @@
  */
 
 import { Outlet, createBrowserRouter } from "react-router-dom";
-import RootLayout from "../layouts/root/layout";
-import HomeLayout from "../layouts/home";
-import Wip from "../pages/common/Wip";
-import Home from "../pages/home";
-import GuestLayout from "../layouts/guest";
-import Login from "../pages/login";
-import Hello from "../pages/hello";
-import Register from "../pages/register/index";
 import AuthLayout from "../layouts/auth/index";
-import Feed from "../pages/feed";
-import RegisterLayout from "../layouts/register";
-import RegisterProfile from "../pages/register/Profile";
-import Me from "../pages/me";
-import Create from "../pages/create";
-import { Challenge } from "../pages/challenge";
 import ChallengeLayout from "../layouts/challenge/index";
-import Detail from "../pages/detail";
-import { ChallengeTry } from "../pages/challenge/try";
+import GuestLayout from "../layouts/guest";
+import HomeLayout from "../layouts/home";
+import RegisterLayout from "../layouts/register";
+import RootLayout from "../layouts/root";
+import { Challenge } from "../pages/challenge";
 import { ChallengeResult } from "../pages/challenge/result";
 import { ChallengeSecret } from "../pages/challenge/secret";
+import { ChallengeTry } from "../pages/challenge/try";
+import Wip from "../pages/common/Wip";
+import Create from "../pages/create";
+import Detail from "../pages/detail";
+import Feed from "../pages/feed";
+import Hello from "../pages/hello";
+import Home from "../pages/home";
+import Login from "../pages/login";
+import Me from "../pages/me";
+import RegisterProfile from "../pages/register/Profile";
+import Register from "../pages/register/index";
 import Time from "../pages/time";
 
 const router = createBrowserRouter([

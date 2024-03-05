@@ -28,6 +28,7 @@ export default function RootLayout() {
 const Main = styled.main`
   position: relative;
   width: 390px;
+  height: 100vh;
   overflow: hidden;
   max-width: var(--max-width);
   margin: auto;
