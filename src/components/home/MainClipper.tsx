@@ -39,7 +39,7 @@ export default function MainClipper({ isBlendLayer }: Props) {
             />
             <path
               d="M390 72.2337V0H125.205V225L390 72.2337Z"
-              fill-opacity={isBlendLayer ? 0 : 1}
+              fillOpacity={isBlendLayer ? 0 : 1}
             />
           </g>
         ) : (
