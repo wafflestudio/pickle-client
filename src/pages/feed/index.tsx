@@ -4,79 +4,75 @@
  * Emotion의 Styled와 Css 방식을 모두 사용할 수 있습니다.
  */
 
-import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
-import Post from "../../components/feed/Post";
+import { useContext, useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Fallback from "../../components/common/Fallback";
 import { Page } from "../../components/common/Page";
+import Post from "../../components/feed/Post";
+import { GeolocationContext } from "../../layouts/root/context";
 import { PostApiSchema } from "../../services/apis/post";
-import { hideScroll } from "../../utils/emotion/scroll";
 import { useGetPostListQuery } from "../../services/repositories/post";
+import { hideScroll } from "../../utils/emotion/scroll";
 
 export default function Feed() {
+  const { position, error, status } = useContext(GeolocationContext);
+
+  if (status === "pending")
+    return <Fallback message="위치 정보 불러오는 중..." />;
+  else if (status === "error")
+    return (
+      <Fallback
+        message={`위치 정보를 불러오지 못했습니다.\n${error.message}`}
+      />
+    );
+  else if (status === "success") return <FeedWithGps position={position} />;
+}
+
+interface FeedWithGpsProps {
+  position: GeolocationPosition;
+}
+
+export function FeedWithGps({ position }: FeedWithGpsProps) {
+  const { latitude, longitude } = position.coords;
   const navigate = useNavigate();
   const observer = useRef<IntersectionObserver | null>(null);
   const [cursor, setCursor] = useState("");
-  const [latitude, setLatitude] = useState(37.50324);
-  const [longitude, setLongitude] = useState(127.03996);
-  const [isFetching, setIsFetching] = useState(false);
-  const [loadingLocation, setLoadingLocation] = useState(false);
-  const [posts, setPosts] = useState<
-    PostApiSchema["getPostList"]["response"]["results"]
-  >([]);
+  const posts = useRef<PostApiSchema["getPostList"]["response"]["results"]>([]);
+  const postIdSet = useRef<Set<number>>(new Set());
+  const updatedAt = useRef<number>(0);
 
-  const { data: feedList, isLoading } = useGetPostListQuery({
+  const {
+    data: feedList,
+    isLoading,
+    dataUpdatedAt,
+  } = useGetPostListQuery({
     latitude,
     longitude,
     cursor,
-    limit: 200, // TODO: 무한스크롤로 수정
+    limit: 10,
   });
 
-  // TODO: 무한 스크롤 디버깅해야함
-  // 로딩처리
-  useEffect(() => {
-    const fetchLocation = () => {
-      if (navigator.geolocation) {
-        navigator.geolocation.watchPosition(
-          (position) => {
-            const lat = position.coords.latitude;
-            const lng = position.coords.longitude;
-            setLatitude(lat);
-            setLongitude(lng);
-          },
-          () => {
-            console.error("위치 정보를 가져오는데 실패했습니다.");
-            setLoadingLocation(false);
-          },
-        );
-      } else {
-        console.error("브라우저가 위치 정보를 지원하지 않습니다.");
-        setLoadingLocation(false);
-      }
-    };
-
-    fetchLocation();
-  }, []);
+  if (updatedAt.current !== dataUpdatedAt) {
+    updatedAt.current = dataUpdatedAt;
+    const addedPosts =
+      feedList?.results.filter(({ id }) => !postIdSet.current.has(id)) ?? [];
+    posts.current = [...posts.current, ...addedPosts];
+    addedPosts.forEach(({ id }) => postIdSet.current.add(id));
+  }
 
   useEffect(() => {
-    if (!feedList) return;
-    setPosts((prevPosts) => [...prevPosts, ...feedList.results]);
-    setIsFetching(false);
-  }, [feedList]);
-
-  useEffect(() => {
-    if (!isFetching || isLoading) return;
+    if (isLoading) return;
 
     const observerOptions = {
       root: null,
       rootMargin: "20px",
-      threshold: 0.5,
+      threshold: 1,
     };
 
     const handleObserver: IntersectionObserverCallback = (entities) => {
       const target = entities[0];
-      if (target.isIntersecting) {
-        setIsFetching(true);
+      if (target.isIntersecting && !isLoading) {
         setCursor(feedList?.next ?? "");
       }
     };
@@ -85,14 +81,15 @@ export default function Feed() {
       handleObserver,
       observerOptions,
     );
-    if (observer.current && feedList?.next) {
+
+    if (observer.current !== null && feedList?.next) {
       observer.current.observe(document.getElementById("observe")!); // 타입 단언을 사용하여 null 이 아님을 보장
     }
 
     return () => {
       observer.current?.disconnect();
     };
-  }, [isFetching, isLoading, feedList]);
+  }, [isLoading, feedList]);
 
   return (
     <Main css={hideScroll}>
@@ -101,51 +98,44 @@ export default function Feed() {
           <Title>{"둘러보기"}</Title>
           <Desc>{"현재 위치에서 가까운 게시물이 보입니다."}</Desc>
         </Greeting>
-
-        {loadingLocation ? (
-          <>로딩중..</>
-        ) : (
-          <>
-            {posts?.length ? (
-              <Grid>
-                {posts.map(
-                  (
-                    {
-                      id,
-                      created_at: date,
-                      image: imageUrl,
-                      text: description,
-                      author_name: username,
-                      like_count: likeCount,
-                      challenge_count: challengeCount,
-                    }: PostApiSchema["getPostList"]["response"]["results"][0],
-                    index: number,
-                  ) => {
-                    const post = {
-                      id,
-                      date,
-                      username,
-                      imageUrl,
-                      likeCount,
-                      description,
-                      challengeCount,
-                    };
-                    return (
-                      <Post
-                        {...post}
-                        key={imageUrl}
-                        isOdd={index % 2 !== 0}
-                        onClick={() => navigate(`/feed/${id}`)}
-                      />
-                    );
-                  },
-                )}
-                <Observer id="observe" />
-              </Grid>
-            ) : (
-              <NoResults>😥 게시물이 없습니다. 😥</NoResults>
+        {posts.current.length ? (
+          <Grid>
+            {posts.current.map(
+              (
+                {
+                  id,
+                  created_at: date,
+                  image: imageUrl,
+                  text: description,
+                  author_name: username,
+                  like_count: likeCount,
+                  challenge_count: challengeCount,
+                }: PostApiSchema["getPostList"]["response"]["results"][0],
+                index: number,
+              ) => {
+                const post = {
+                  id,
+                  date,
+                  username,
+                  imageUrl,
+                  likeCount,
+                  description,
+                  challengeCount,
+                };
+                return (
+                  <Post
+                    {...post}
+                    key={id}
+                    isOdd={index % 2 !== 0}
+                    onClick={() => navigate(`/feed/${id}`)}
+                  />
+                );
+              },
             )}
-          </>
+            <Observer id="observe" />
+          </Grid>
+        ) : (
+          <NoResults>😥 게시물이 없습니다. 😥</NoResults>
         )}
       </Contents>
     </Main>

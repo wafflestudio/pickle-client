@@ -5,14 +5,18 @@
  *
  */
 
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { ChallengeApiSchema, challengeRepo } from "../apis/challenge";
 
 export const useTodayChallengeQuery = (
   params: ChallengeApiSchema["getTodayChallenge"]["request"],
 ) => {
   const query = useQuery({
-    queryKey: ["todayChallenge"],
+    queryKey: [
+      "todayChallenge",
+      params.latitude.toFixed(4),
+      params.longitude.toFixed(4),
+    ],
     queryFn: () => challengeRepo().getTodayChallenge(params),
   });
   return query;
@@ -22,7 +26,11 @@ export const useOhterChallengesQuery = (
   params: ChallengeApiSchema["getTodayChallenge"]["request"],
 ) => {
   const query = useQuery({
-    queryKey: ["otherChallenge", params.latitude, params.longitude],
+    queryKey: [
+      "otherChallenge",
+      params.latitude.toFixed(4),
+      params.longitude.toFixed(4),
+    ],
     queryFn: () => challengeRepo().getOtherChallenges(params),
   });
   return query;

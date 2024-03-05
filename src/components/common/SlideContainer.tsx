@@ -33,7 +33,7 @@ const Container = styled.div<{
   $slideDirection: "LEFT" | "RIGHT" | "NONE";
   $animationDuration: number;
 }>`
-  position: fixed;
+  position: absolute;
   display: flex;
   animation-fill-mode: forwards;
   top: 0;

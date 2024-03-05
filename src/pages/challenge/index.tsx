@@ -1,28 +1,43 @@
-import styled from "@emotion/styled";
-import { Page } from "../../components/common/Page";
-import { FullButton } from "../../components/button/FullButton";
-import { useChallengeStartQuery } from "../../services/repositories/challenge";
-import { useNavigate, useParams } from "react-router";
 import { css, keyframes } from "@emotion/react";
+import styled from "@emotion/styled";
+import { useContext, useMemo } from "react";
+import { useNavigate, useParams } from "react-router";
+import { FullButton } from "../../components/button/FullButton";
+import Fallback from "../../components/common/Fallback";
+import { Page } from "../../components/common/Page";
+import { GeolocationContext } from "../../layouts/root/context";
+import { useChallengeStartQuery } from "../../services/repositories/challenge";
 import { useGetPostQuery } from "../../services/repositories/post";
-import { getGeolocation } from "../../utils/geolocation/hooks";
 import { distance } from "../../utils/geolocation/utils";
-import { useEffect, useMemo, useState } from "react";
 
 export function Challenge() {
+  const { position, error, status } = useContext(GeolocationContext);
+  if (status === "pending")
+    return <Fallback message="위치 정보 불러오는 중..." />;
+  else if (status === "error")
+    return (
+      <Fallback
+        message={`위치 정보를 불러오지 못했습니다.\n${error.message}`}
+      />
+    );
+  else if (status === "success")
+    return <ChallengeWithGps position={position} />;
+}
+
+interface ChallengeWithGpsProps {
+  position: GeolocationPosition;
+}
+
+function ChallengeWithGps({ position }: ChallengeWithGpsProps) {
   const { start } = useChallengeStartQuery();
-  const [currentLocation, setCurrentLocation] = useState<{
-    latitude: number;
-    longitude: number;
-  } | null>(null);
   const params = useParams();
   const navigate = useNavigate();
   const query = useGetPostQuery(Number(params.postId));
 
   const min = useMemo(() => {
     {
-      if (currentLocation) {
-        const dist = distance(currentLocation, {
+      if (position) {
+        const dist = distance(position.coords, {
           latitude: query.data.latitude,
           longitude: query.data.longitude,
         });
@@ -30,16 +45,7 @@ export function Challenge() {
         return min > 99 ? 99 : min.toFixed(0);
       }
     }
-  }, [currentLocation, query.data]);
-
-  useEffect(() => {
-    getGeolocation().then((position) => {
-      setCurrentLocation({
-        latitude: position.coords.latitude,
-        longitude: position.coords.longitude,
-      });
-    });
-  }, []);
+  }, [position, query.data]);
 
   if (query.status !== "success") return null;
 
