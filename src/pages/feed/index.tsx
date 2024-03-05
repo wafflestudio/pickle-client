@@ -39,6 +39,7 @@ export function FeedWithGps({ position }: FeedWithGpsProps) {
   const observer = useRef<IntersectionObserver | null>(null);
   const [cursor, setCursor] = useState("");
   const posts = useRef<PostApiSchema["getPostList"]["response"]["results"]>([]);
+  const postIdSet = useRef<Set<number>>(new Set());
   const updatedAt = useRef<number>(0);
 
   const {
@@ -54,7 +55,10 @@ export function FeedWithGps({ position }: FeedWithGpsProps) {
 
   if (updatedAt.current !== dataUpdatedAt) {
     updatedAt.current = dataUpdatedAt;
-    posts.current = [...posts.current, ...(feedList?.results ?? [])];
+    const addedPosts =
+      feedList?.results.filter(({ id }) => !postIdSet.current.has(id)) ?? [];
+    posts.current = [...posts.current, ...addedPosts];
+    addedPosts.forEach(({ id }) => postIdSet.current.add(id));
   }
 
   useEffect(() => {
@@ -121,7 +125,7 @@ export function FeedWithGps({ position }: FeedWithGpsProps) {
                 return (
                   <Post
                     {...post}
-                    key={imageUrl}
+                    key={id}
                     isOdd={index % 2 !== 0}
                     onClick={() => navigate(`/feed/${id}`)}
                   />
